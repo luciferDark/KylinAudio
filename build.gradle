@@ -7,14 +7,14 @@ buildscript {
         mavenCentral()
         // 添加2个maven私服
         maven {
-            url "http://localhost:8082/repository/kylin_audio_release/"
+            url NEXUS_REPOSITORY_URL_RELEASE
             credentials {
                 username NEXUS_NAME
                 password NEXUS_PASSWORD
             }
         }
         maven {
-            url "http://localhost:8082/repository/kylin_audio_snapshots/"
+            url NEXUS_REPOSITORY_URL_SNAPSHOTS
             credentials {
                 username NEXUS_NAME
                 password NEXUS_PASSWORD
@@ -34,14 +34,14 @@ allprojects {
         mavenCentral()
         // 添加2个maven私服
         maven {
-            url "http://localhost:8082/repository/kylin_audio_release/"
+            url NEXUS_REPOSITORY_URL_RELEASE
             credentials {
                 username NEXUS_NAME
                 password NEXUS_PASSWORD
             }
         }
         maven {
-            url "http://localhost:8082/repository/kylin_audio_snapshots/"
+            url NEXUS_REPOSITORY_URL_SNAPSHOTS
             credentials {
                 username NEXUS_NAME
                 password NEXUS_PASSWORD
