@@ -5,6 +5,9 @@ buildscript {
         google()
         jcenter()
         mavenCentral()
+        maven {
+            url "https://jitpack.io"
+        }//添加MagicIndicator pageView指示器厂库地址
         // 添加2个maven私服
         maven {
             url NEXUS_REPOSITORY_URL_RELEASE
@@ -32,6 +35,9 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
+        maven {
+            url "https://jitpack.io"
+        }//添加MagicIndicator pageView指示器厂库地址
         // 添加2个maven私服
         maven {
             url NEXUS_REPOSITORY_URL_RELEASE
