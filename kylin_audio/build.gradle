@@ -30,7 +30,6 @@ dependencies {
     androidTestImplementation rootProject.depsLibs.espresso_core
 
     implementation rootProject.depsLibs.appcompat_v7
-    implementation rootProject.depsLibs.magicindicator
 
     implementation project(path: ':lib_share')
     implementation project(path: ':lib_qrcode')

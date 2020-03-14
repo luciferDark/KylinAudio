@@ -30,6 +30,9 @@ dependencies {
     testImplementation rootProject.depsLibs.junit
     androidTestImplementation rootProject.depsLibs.runner
     androidTestImplementation rootProject.depsLibs.espresso_core
+
+
+    api rootProject.depsLibs.magicindicator
 }
 
 def pomName = this.getName()
