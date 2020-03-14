@@ -7,12 +7,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ll.audio.R;
 import com.ll.audio.model.Channel;
+import com.ll.audio.view.home.adpaters.HomeViewPagerAdapter;
+import com.ll.lib_common_ui.viewPageIndictors.ScaleTransitionPageTitleView;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
@@ -34,6 +38,7 @@ public class HomeActivity extends FragmentActivity {
     private TextView mCategory, mSearch;
     private ViewPager mViewPager;
     private MagicIndicator mMagicIndicator;
+    private HomeViewPagerAdapter mViewPagerAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +59,19 @@ public class HomeActivity extends FragmentActivity {
         mViewPager = findViewById(R.id.home_view_pager);
         mMagicIndicator = findViewById(R.id.home_magic_indicator);
 
+        initViewPager();
         initMagicIndicator();
+    }
+
+    /**
+     * 初始化viewpager
+     */
+    private void initViewPager() {
+        if (null != mViewPager){
+            mViewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager(),
+                    CHANNELS);
+            mViewPager.setAdapter(mViewPagerAdapter);
+        }
     }
 
     /**
@@ -70,17 +87,44 @@ public class HomeActivity extends FragmentActivity {
             }
 
             @Override
-            public IPagerTitleView getTitleView(Context context, int index) {
-                return null;
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                //创建pagerTitleView
+                SimplePagerTitleView mTitleView = new ScaleTransitionPageTitleView(context);
+                mTitleView.setText(CHANNELS[index].getKey());
+                mTitleView.setTextSize(19);
+                mTitleView.setNormalColor(Color.parseColor("#999999"));
+                mTitleView.setSelectedColor(Color.parseColor("#000000"));
+                mTitleView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(null == mViewPager){
+                            return;
+                        }
+
+                        mViewPager.setCurrentItem(index);
+                    }
+                });
+                return mTitleView;
             }
 
             @Override
             public IPagerIndicator getIndicator(Context context) {
                 return null;
             }
+
+            @Override
+            public float getTitleWeight(Context context, int index) {
+                return 1.0f;
+            }
         });
+
+        mMagicIndicator.setNavigator(mCommonNavigator);//设置MagicIndicator的Navigator
+        ViewPagerHelper.bind(mMagicIndicator, mViewPager);//绑定Viewpager和indicator
     }
 
+    /**
+     * 初始化Datas
+     */
     private void initData() {
     }
 }
