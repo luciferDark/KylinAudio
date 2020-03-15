@@ -2,11 +2,13 @@ package com.ll.audio.view.home;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -80,6 +82,7 @@ public class HomeActivity extends FragmentActivity {
     private void initMagicIndicator() {
         mMagicIndicator.setBackgroundColor(Color.WHITE);
         CommonNavigator mCommonNavigator = new CommonNavigator(HomeActivity.this);
+        mCommonNavigator.setAdjustMode(true);
         mCommonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -94,13 +97,13 @@ public class HomeActivity extends FragmentActivity {
                 mTitleView.setTextSize(19);
                 mTitleView.setNormalColor(Color.parseColor("#999999"));
                 mTitleView.setSelectedColor(Color.parseColor("#000000"));
+                mTitleView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                 mTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(null == mViewPager){
                             return;
                         }
-
                         mViewPager.setCurrentItem(index);
                     }
                 });
