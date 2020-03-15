@@ -1,0 +1,12 @@
+<resources>
+
+    <!-- Base application theme. 设置沉浸式效果 -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item><!-- 设置状态栏颜色透明 -->
+        <item name="android:navigationBarColor">@android:color/white</item><!-- 导航栏颜色 -->
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowActivityTransitions">true</item><!-- windows 转场动画 -->
+    </style>
+
+</resources>
