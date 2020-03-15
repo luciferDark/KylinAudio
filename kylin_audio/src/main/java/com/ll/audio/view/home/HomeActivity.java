@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.ll.audio.R;
 import com.ll.audio.model.Channel;
 import com.ll.audio.view.home.adpaters.HomeViewPagerAdapter;
+import com.ll.lib_common_ui.base.BaseFragmentActivity;
 import com.ll.lib_common_ui.viewPageIndictors.ScaleTransitionPageTitleView;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -30,7 +31,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.Simple
  * @Data 2020/03/11
  * @Description app主页面
  */
-public class HomeActivity extends FragmentActivity {
+public class HomeActivity extends BaseFragmentActivity {
     private static final Channel[] CHANNELS = new Channel[]{Channel.MY, Channel.DISCOVER, Channel.Friend};
 
     /**
