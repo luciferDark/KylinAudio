@@ -19,8 +19,8 @@ import java.lang.reflect.Method;
  * @Description 状态栏辅助类
  */
 public class StatusBarUtil {
-    public static final int DARK_MODE_FLAG = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-    public static final int LIGHT_MODE_FLAG = View.SYSTEM_UI_FLAG_VISIBLE;
+    public static final int LIGHT_MODE_FLAG = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+    public static final int DARK_MODE_FLAG = View.SYSTEM_UI_FLAG_VISIBLE;
 
 
     /**
@@ -103,10 +103,50 @@ public class StatusBarUtil {
      * 设置不同系统版本为light模式
      *
      * @param activity
+     */
+    public static void statusBarLightMode(Activity activity) {
+        boolean lightMode = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (miuiSystemStatusBarMode(activity, lightMode)) {
+
+            } else if (flymeSystemStatusBarMode(activity, lightMode)) {
+
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                activity.getWindow()
+                        .getDecorView()
+                        .setSystemUiVisibility(LIGHT_MODE_FLAG);
+            }
+        }
+    }
+
+    /**
+     * 设置不同系统版本为light模式
+     *
+     * @param activity
      * @param type
      */
     public static void statusBarLightMode(Activity activity, int type) {
-        statusBarMode(activity, false, type);
+        statusBarMode(activity, true, type);
+    }
+
+    /**
+     * 设置不同系统版本为dark模式
+     *
+     * @param activity
+     */
+    public static void statusBarDarkMode(Activity activity) {
+        boolean lightMode = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (miuiSystemStatusBarMode(activity, lightMode)) {
+
+            } else if (flymeSystemStatusBarMode(activity, lightMode)) {
+
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                activity.getWindow()
+                        .getDecorView()
+                        .setSystemUiVisibility(DARK_MODE_FLAG);
+            }
+        }
     }
 
     /**
@@ -116,24 +156,24 @@ public class StatusBarUtil {
      * @param type
      */
     public static void statusBarDarkMode(Activity activity, int type) {
-        statusBarMode(activity, true, type);
+        statusBarMode(activity, false, type);
     }
 
     /**
      * 设置不同系统不同version的StatusBar模式
      *
      * @param activity
-     * @param darkModel 是否是黑暗模式
+     * @param lightMode 是否是黑暗模式
      * @param type
      */
-    private static void statusBarMode(Activity activity, boolean darkModel, int type) {
+    private static void statusBarMode(Activity activity, boolean lightMode, int type) {
         if (type == 1) {
-            miuiSystemStatusBarMode(activity, darkModel);
+            miuiSystemStatusBarMode(activity, lightMode);
         } else if (type == 2) {
-            flymeSystemStatusBarMode(activity, darkModel);
+            flymeSystemStatusBarMode(activity, lightMode);
         } else if (type == 3) {
             if (null != activity) {
-                int mode = darkModel ? DARK_MODE_FLAG : LIGHT_MODE_FLAG;
+                int mode = lightMode ? LIGHT_MODE_FLAG : DARK_MODE_FLAG;
                 activity
                         .getWindow()
                         .getDecorView()
@@ -146,10 +186,10 @@ public class StatusBarUtil {
      * 适配MIUI系统statusBar模式
      *
      * @param activity
-     * @param darkModel
+     * @param lightMode
      * @return
      */
-    private static boolean miuiSystemStatusBarMode(Activity activity, boolean darkModel) {
+    private static boolean miuiSystemStatusBarMode(Activity activity, boolean lightMode) {
         boolean result = false;
         Window window = activity.getWindow();
         if (null != window) {
@@ -163,7 +203,7 @@ public class StatusBarUtil {
                 darkModeFlag = field.getInt(layoutParams);
 
                 Method extraFlagField = clazz_Window.getMethod("setExtraFlags", int.class, int.class);
-                if (darkModel) {
+                if (lightMode) {
                     extraFlagField.invoke(window, darkModeFlag, darkModeFlag);
                 } else {
                     extraFlagField.invoke(window, 0, darkModeFlag);
@@ -171,9 +211,9 @@ public class StatusBarUtil {
 
                 result = true;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        window.getDecorView()
-                                .setSystemUiVisibility(
-                                        darkModel ? DARK_MODE_FLAG : LIGHT_MODE_FLAG);
+                    window.getDecorView()
+                            .setSystemUiVisibility(
+                                    lightMode ? DARK_MODE_FLAG : LIGHT_MODE_FLAG);
                 }
 
             } catch (Exception e) {
@@ -187,13 +227,13 @@ public class StatusBarUtil {
      * 适配FlyMe系统statusBar模式
      *
      * @param activity
-     * @param darkModel
+     * @param lightMode
      * @return
      */
-    private static boolean flymeSystemStatusBarMode(Activity activity, boolean darkModel) {
+    private static boolean flymeSystemStatusBarMode(Activity activity, boolean lightMode) {
         boolean result = false;
         Window window = activity.getWindow();
-        if (null != window){
+        if (null != window) {
             try {
                 WindowManager.LayoutParams lp = window.getAttributes();
                 Field darkFlag =
@@ -203,7 +243,7 @@ public class StatusBarUtil {
                 meizuFlags.setAccessible(true);
                 int bit = darkFlag.getInt(null);
                 int value = meizuFlags.getInt(lp);
-                if (darkModel) {
+                if (lightMode) {
                     value |= bit;
                 } else {
                     value &= ~bit;

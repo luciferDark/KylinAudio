@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
+import com.ll.lib_common_ui.utils.StatusBarUtil;
+
 /**
  * @Auther Kylin
  * @Data 2020/03/15
@@ -21,5 +23,6 @@ public class BaseFragmentActivity extends FragmentActivity {
      * 设置沉浸式效果
      */
     private void setImmersionTitleBar() {
+        StatusBarUtil.statusBarLightMode(this);
     }
 }
