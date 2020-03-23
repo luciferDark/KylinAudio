@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion 28
@@ -30,4 +31,30 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+def pomName = this.getName()
+def pomVersion = POM_VERSION
+def pomDescription = "this is the project :" + this.getName()
+//添加项目maven库上传gradle构建命令
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: NEXUS_REPOSITORY_URL_RELEASE) {
+                authentication( userName: NEXUS_NAME,
+                        password: NEXUS_PASSWORD)
+            }
+            //groupId: com.ll.android
+            //artifactId: lib_xxx
+            //version: POM_VERSION
+            pom.project {
+                name pomName
+                version pomVersion
+                description pomDescription
+                artifactId pomName
+                groupId POM_GROUP_ID
+                packaging POM_PACKAGING
+            }
+        }
+    }
 }

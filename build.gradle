@@ -2,7 +2,22 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+        mavenCentral()
+        // 添加2个maven私服
+        maven {
+            url "http://localhost:8082/repository/kylin_audio_release/"
+            credentials{
+                username NEXUS_NAME
+                password NEXUS_PASSWORD
+            }
+        }
+        maven {
+            url "http://localhost:8082/repository/kylin_audio_snapshots/"
+            credentials{
+                username NEXUS_NAME
+                password NEXUS_PASSWORD
+            }
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.2'
@@ -14,7 +29,22 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        mavenCentral()
+        // 添加2个maven私服
+        maven {
+            url "http://localhost:8082/repository/kylin_audio_release/"
+            credentials{
+                username NEXUS_NAME
+                password NEXUS_PASSWORD
+            }
+        }
+        maven {
+            url "http://localhost:8082/repository/kylin_audio_snapshots/"
+            credentials{
+                username NEXUS_NAME
+                password NEXUS_PASSWORD
+            }
+        }
     }
 }
 
