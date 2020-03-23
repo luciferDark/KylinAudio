@@ -1,1 +1,1 @@
-include ':kylin_audio'
+include ':kylin_audio', ':lib_audio', ':lib_video', ':lib_network', ':lib_image_loader', ':lib_share', ':lib_update', ':lib_common_ui', ':lib_webview', ':lib_qrcode', ':lib_pullalive'
