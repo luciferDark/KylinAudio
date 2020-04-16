@@ -12,6 +12,13 @@ android {
         versionName rootProject.android.versionName
         multiDexEnabled rootProject.android.multiDexEnabled
         testInstrumentationRunner rootProject.android.testInstrumentationRunner
+
+        //添加了javaCompileOptions
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
     }
 
     buildTypes {
