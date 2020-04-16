@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,8 +32,10 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.Simple
  * @Data 2020/03/11
  * @Description app主页面
  */
-public class HomeActivity extends BaseFragmentActivity {
+public class HomeActivity extends BaseFragmentActivity implements View.OnClickListener {
     private static final Channel[] CHANNELS = new Channel[]{Channel.MY, Channel.DISCOVER, Channel.Friend};
+
+    public static final String TAG = "KYLIN";
 
     /**
      * views
@@ -42,6 +45,8 @@ public class HomeActivity extends BaseFragmentActivity {
     private ViewPager mViewPager;
     private MagicIndicator mMagicIndicator;
     private HomeViewPagerAdapter mViewPagerAdapter;
+
+    private TextView mUserLogin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +66,12 @@ public class HomeActivity extends BaseFragmentActivity {
         mSearch = findViewById(R.id.home_search_view);
         mViewPager = findViewById(R.id.home_view_pager);
         mMagicIndicator = findViewById(R.id.home_magic_indicator);
+        mUserLogin = findViewById(R.id.home_category_login);
+
+
+        mCategory.setOnClickListener(this);
+        mSearch.setOnClickListener(this);
+        mUserLogin.setOnClickListener(this);
 
         initViewPager();
         initMagicIndicator();
@@ -130,5 +141,26 @@ public class HomeActivity extends BaseFragmentActivity {
      * 初始化Datas
      */
     private void initData() {
+    }
+
+    @Override
+    public void onClick(View v) {
+        final int id = v.getId();
+
+        switch (id){
+            case R.id.home_category_view:
+                if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    mDrawerLayout.openDrawer(Gravity.LEFT);
+                }
+
+                break;
+            case R.id.home_search_view:
+                break;
+            case R.id.home_category_login:
+                Log.d(TAG, "click the login button");
+                break;
+        }
     }
 }
