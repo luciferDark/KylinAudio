@@ -30,6 +30,12 @@ dependencies {
     testImplementation rootProject.depsLibs.junit
     androidTestImplementation rootProject.depsLibs.runner
     androidTestImplementation rootProject.depsLibs.espresso_core
+
+
+    api rootProject.depsLibs.glide
+    api rootProject.depsLibs.glidecompiler
+    implementation rootProject.depsLibs.rxjava
+    implementation rootProject.depsLibs.rxandroid
 }
 
 def pomName = this.getName()

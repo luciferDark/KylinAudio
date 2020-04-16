@@ -18,6 +18,10 @@ ext {
             design: '1.0.0',
             magicindicator: '1.5.0',
             okhttp: '3.3.0',
+            glide          : '4.9.0',
+            glidecompiler  : '4.9.0',
+            rxjava         : '2.2.9',
+            rxandroid      : '2.1.1',
     ]
 
     depsLibs = [
@@ -28,6 +32,10 @@ ext {
             design: "com.google.android.material:material:${depsVersion.design}",
             magicindicator : "com.github.hackware1993:MagicIndicator:${depsVersion.magicindicator}",
             okhttp: "com.squareup.okhttp3:okhttp:${depsVersion.okhttp}",
+            glide: "com.github.bumptech.glide:glide:${depsVersion.glide}",
+            glidecompiler: "com.github.bumptech.glide:compiler:${depsVersion.glidecompiler}",
+            rxjava: "io.reactivex.rxjava2:rxjava:${depsVersion.rxjava}",
+            rxandroid: "io.reactivex.rxjava2:rxandroid:${depsVersion.rxandroid}",
     ]
 
     mavenConfig = [

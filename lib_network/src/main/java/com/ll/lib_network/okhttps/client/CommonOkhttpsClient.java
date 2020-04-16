@@ -21,7 +21,7 @@ import okhttp3.Response;
  * okhttpsClient 封装，对外提供接口
  *
  * @author kylin
- * @date 2020/4/18
+ * @date 2020/4/15
  */
 public class CommonOkhttpsClient {
     private static OkHttpClient mOkHttpClient;

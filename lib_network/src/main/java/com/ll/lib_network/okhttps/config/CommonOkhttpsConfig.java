@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
  * okhttpsClient 配置常量
  *
  * @author kylin
- * @date 2020/4/18
+ * @date 2020/4/15
  */
 public class CommonOkhttpsConfig {
     public static final int TIME_OUT = 30;
