@@ -105,8 +105,8 @@ public class SpreadWaveViewAnimatorController extends BaseViewAnimatorController
         Log.d("kylin", "circleCount" + circleCount);
         mPaint = new Paint();
         mPaint.setColor(mPaintColor);
-        mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(mPaintWidth);
+        mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setAntiAlias(true);
 
         initData(this.circleNum);
@@ -119,12 +119,11 @@ public class SpreadWaveViewAnimatorController extends BaseViewAnimatorController
         for (int i = 0; i < circleNum; i++) {
             canvas.save();
             //获取每个点的坐标点
-//            canvas.translate(0, 0);
-            if (circleAlphas[i] > 0){
+            if (circleAlphas[i] > 0  && radius[i] >= (startRadius +5)){
                 mPaint.setAlpha(circleAlphas[i]);
                 canvas.drawCircle(getViewWidth() / 2, getViewHeigth() / 2, radius[i], mPaint);
-                canvas.restore();
             }
+            canvas.restore();
         }
     }
 

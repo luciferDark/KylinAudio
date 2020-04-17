@@ -3,14 +3,146 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#dd0000"
     android:orientation="vertical">
 
-    <com.ll.lib_common_ui.spreadWaveView.SpreadWaveView
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_centerInParent="true"
-        app:spread_circle_num="6"
-        app:spread_duration_time="2000"
-        app:spread_max_radius="200"
-        app:spread_start_radius="40" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.ll.lib_common_ui.spreadWaveView.SpreadWaveView
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_centerInParent="true"
+            app:spread_circle_num="2"
+            app:spread_duration_time="3000"
+            app:spread_max_radius="400"
+            app:spread_start_radius="120"
+            app:spread_wave_color="@color/color_red" />
+
+        <com.ll.lib_common_ui.circleImageView.CircleImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/icon_logo" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/home_login_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/home_third_type_login_layout"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="6dp">
+
+        <TextView
+            android:id="@+id/home_login_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/home_login_phone_background"
+            android:gravity="center"
+            android:paddingStart="84dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="84dp"
+            android:paddingBottom="10dp"
+            android:text="@string/home_login_phone"
+            android:textColor="@color/color_red"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/home_third_type_login_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/home_protocol_bottom_layout"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="6dp">
+
+        <ImageView
+            android:id="@+id/home_third_type_login_wechat"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:checked="false"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/home_third_login_wechat" />
+
+        <ImageView
+            android:id="@+id/home_third_type_login_qq"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/home_third_login_qq" />
+
+        <ImageView
+            android:id="@+id/home_third_type_login_weibo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/home_third_login_weibo" />
+
+        <ImageView
+            android:id="@+id/home_third_type_login_email"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/home_third_login_email" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/home_protocol_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="6dp">
+
+        <CheckBox
+            android:id="@+id/home_protocol_agree_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:checked="false" />
+
+        <TextView
+            android:id="@+id/home_protocol_user_protocol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="@string/protocol_user_protocol"
+            android:textColor="@color/color_white"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/home_protocol_privacy_policy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="@string/protocol_privacy_policy"
+            android:textColor="@color/color_white"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/home_protocol_children_privacy_policy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="@string/protocol_children_privacy_policy"
+            android:textColor="@color/color_white"
+            android:textSize="10sp" />
+    </LinearLayout>
 </RelativeLayout>
