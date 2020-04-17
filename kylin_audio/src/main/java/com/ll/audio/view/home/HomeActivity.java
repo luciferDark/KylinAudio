@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.ll.audio.R;
 import com.ll.audio.model.Channel;
 import com.ll.audio.view.home.adpaters.HomeViewPagerAdapter;
+import com.ll.audio.view.login.LoginActivity;
 import com.ll.lib_common_ui.base.BaseFragmentActivity;
 import com.ll.lib_common_ui.viewPageIndictors.ScaleTransitionPageTitleView;
 
@@ -157,6 +158,7 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
 
                 break;
             case R.id.home_search_view:
+                startActivity(HomeActivity.this, LoginActivity.class);
                 break;
             case R.id.home_category_login:
                 Log.d(TAG, "click the login button");

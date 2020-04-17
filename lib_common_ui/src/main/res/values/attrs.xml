@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--CircleImageView使用-->
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_circle_background_color" format="color" />
+    </declare-styleable>
+
+    <!--SpreadView使用-->
+    <declare-styleable name="SpreadWaveView">
+        <attr name="spread_start_radius" format="integer"/><!-- 圆半径 -->
+        <attr name="spread_circle_num" format="integer"/><!-- 圆数量 -->
+        <attr name="spread_circle_stroke_width" format="integer"/><!-- 圆画笔宽度 -->
+        <attr name="spread_wave_color" format="color"/><!-- 扩散圆颜色 -->
+        <attr name="spread_max_radius" format="integer"/><!-- 扩散最大半径 -->
+        <attr name="spread_time" format="integer"/><!-- 扩散间隔时间 -->
+        <attr name="spread_duration_time" format="integer"/><!-- 扩散持续时间 -->
+    </declare-styleable>
+</resources>

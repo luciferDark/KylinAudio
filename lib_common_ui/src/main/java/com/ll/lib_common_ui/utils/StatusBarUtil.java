@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
  * @Description 状态栏辅助类
  */
 public class StatusBarUtil {
-    public static final int LIGHT_MODE_FLAG = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+    public static final int LIGHT_MODE_FLAG = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
     public static final int DARK_MODE_FLAG = View.SYSTEM_UI_FLAG_VISIBLE;
 
 
@@ -111,7 +111,7 @@ public class StatusBarUtil {
 
             } else if (flymeSystemStatusBarMode(activity, lightMode)) {
 
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 activity.getWindow()
                         .getDecorView()
                         .setSystemUiVisibility(LIGHT_MODE_FLAG);
