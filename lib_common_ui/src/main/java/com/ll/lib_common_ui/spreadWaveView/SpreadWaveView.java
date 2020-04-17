@@ -59,7 +59,6 @@ public class SpreadWaveView extends View {
         }
     }
 
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         w = measureDimension(ScreenUtil.dip2px(getContext(), DEFAULTSIZE), widthMeasureSpec);

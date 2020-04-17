@@ -120,9 +120,11 @@ public class SpreadWaveViewAnimatorController extends BaseViewAnimatorController
             canvas.save();
             //获取每个点的坐标点
 //            canvas.translate(0, 0);
-            mPaint.setAlpha(circleAlphas[i]);
-            canvas.drawCircle(getViewWidth() / 2, getViewHeigth() / 2, radius[i], mPaint);
-            canvas.restore();
+            if (circleAlphas[i] > 0){
+                mPaint.setAlpha(circleAlphas[i]);
+                canvas.drawCircle(getViewWidth() / 2, getViewHeigth() / 2, radius[i], mPaint);
+                canvas.restore();
+            }
         }
     }
 
