@@ -15,9 +15,10 @@
             android:layout_height="400dp"
             android:layout_centerInParent="true"
             app:spread_circle_num="2"
-            app:spread_duration_time="3000"
-            app:spread_max_radius="400"
-            app:spread_start_radius="120"
+            app:spread_duration_time="2500"
+            app:spread_max_radius="250"
+            app:spread_start_radius="60"
+            app:spread_out_of_view="false"
             app:spread_wave_color="@color/color_red" />
 
         <com.ll.lib_common_ui.circleImageView.CircleImageView

@@ -24,6 +24,7 @@ public class SpreadWaveViewAnimatorController extends BaseViewAnimatorController
     private int circleNum = DEFUALT_CIRCLE_COUNT; // 画圆数量
     private int startRadius = 0;
     private int maxRadius = 120;
+    private boolean canSpreadOutOfView = false;
     /**
      * 每个圆动画延时时间
      */
@@ -69,11 +70,11 @@ public class SpreadWaveViewAnimatorController extends BaseViewAnimatorController
 
     @Override
     public int getViewWidth() {
-        if (mView == null){
+        if (mView == null) {
             return 0;
         }
-        if (mView instanceof SpreadWaveView){
-            return ((SpreadWaveView)mView).getW();
+        if (mView instanceof SpreadWaveView) {
+            return ((SpreadWaveView) mView).getW();
         } else {
             return super.getViewWidth();
         }
@@ -81,11 +82,11 @@ public class SpreadWaveViewAnimatorController extends BaseViewAnimatorController
 
     @Override
     public int getViewHeigth() {
-        if (mView == null){
+        if (mView == null) {
             return 0;
         }
-        if (mView instanceof SpreadWaveView){
-            return ((SpreadWaveView)mView).getH();
+        if (mView instanceof SpreadWaveView) {
+            return ((SpreadWaveView) mView).getH();
         } else {
             return super.getViewHeigth();
         }
@@ -102,6 +103,7 @@ public class SpreadWaveViewAnimatorController extends BaseViewAnimatorController
         startRadius = a.getInteger(R.styleable.SpreadWaveView_spread_start_radius, 0);
         maxRadius = a.getInteger(R.styleable.SpreadWaveView_spread_max_radius, 120);
         animatorDuration = a.getInteger(R.styleable.SpreadWaveView_spread_duration_time, 1000);
+        canSpreadOutOfView = a.getBoolean(R.styleable.SpreadWaveView_spread_out_of_view, false);
         Log.d("kylin", "circleCount" + circleCount);
         mPaint = new Paint();
         mPaint.setColor(mPaintColor);
@@ -119,7 +121,7 @@ public class SpreadWaveViewAnimatorController extends BaseViewAnimatorController
         for (int i = 0; i < circleNum; i++) {
             canvas.save();
             //获取每个点的坐标点
-            if (circleAlphas[i] > 0  && radius[i] >= (startRadius +5)){
+            if (circleAlphas[i] > 0 && radius[i] >= (startRadius + 5)) {
                 mPaint.setAlpha(circleAlphas[i]);
                 canvas.drawCircle(getViewWidth() / 2, getViewHeigth() / 2, radius[i], mPaint);
             }
@@ -143,7 +145,11 @@ public class SpreadWaveViewAnimatorController extends BaseViewAnimatorController
             scaleAnimate.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    radius[index] = Math.min(getViewMinLength()/2,(int) valueAnimator.getAnimatedValue());
+                    if (canSpreadOutOfView) {
+                        radius[index] = (int) valueAnimator.getAnimatedValue();
+                    } else {
+                        radius[index] = Math.min(getViewMinLength() / 2, (int) valueAnimator.getAnimatedValue());
+                    }
                     postInvalidate();
                 }
             });
@@ -171,7 +177,7 @@ public class SpreadWaveViewAnimatorController extends BaseViewAnimatorController
     }
 
 
-    public static  int getDefualtCircleCount(){
+    public static int getDefualtCircleCount() {
         return DEFUALT_CIRCLE_COUNT;
     }
 }

@@ -17,5 +17,6 @@
         <attr name="spread_max_radius" format="integer"/><!-- 扩散最大半径 -->
         <attr name="spread_time" format="integer"/><!-- 扩散间隔时间 -->
         <attr name="spread_duration_time" format="integer"/><!-- 扩散持续时间 -->
+        <attr name="spread_out_of_view" format="boolean"/><!-- 能否扩展到view外部 -->
     </declare-styleable>
 </resources>

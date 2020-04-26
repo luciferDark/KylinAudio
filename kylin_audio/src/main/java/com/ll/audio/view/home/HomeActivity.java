@@ -158,10 +158,10 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
 
                 break;
             case R.id.home_search_view:
-                startActivity(HomeActivity.this, LoginActivity.class);
                 break;
             case R.id.home_category_login:
                 Log.d(TAG, "click the login button");
+                startActivity(HomeActivity.this, LoginActivity.class);
                 break;
         }
     }
