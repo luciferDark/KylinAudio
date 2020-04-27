@@ -21,13 +21,7 @@ import okhttp3.Response;
  * @author kylin
  * @data 2020/04/27
  */
-public class CommonJsonCallback implements Callback {
-    protected final String EMPTY_MSG = "";
-
-    protected final int NETWORK_ERROR = -1;//网络层错误
-    protected final int JSON_ERROR = -2;//JSON格式错误
-    protected final int OTHER_ERROR = -3;//其它类型错误
-
+public class CommonJsonCallback extends CommonBaseCallback {
     public DisposeDataListener mDisposeDataListener;
     private Class<?> mClazz;//需要转换的类型实例字节码
 
@@ -42,10 +36,10 @@ public class CommonJsonCallback implements Callback {
 
     @Override
     public void onFailure(Call call, final IOException e) {
-        handlerMainUI(new Runnable() {
+        handlerMainUI(mDeliverHandler, new Runnable() {
             @Override
             public void run() {
-                onFailed(new OkHttpException(NETWORK_ERROR, e));
+                onFailed(mDisposeDataListener, NETWORK_ERROR, e);
             }
         });
     }
@@ -53,7 +47,7 @@ public class CommonJsonCallback implements Callback {
     @Override
     public void onResponse(Call call, Response response) throws IOException {
         final String result = response.body().string();
-        handlerMainUI(new Runnable() {
+        handlerMainUI(mDeliverHandler, new Runnable() {
             @Override
             public void run() {
                 handlerResponse(result);
@@ -67,45 +61,24 @@ public class CommonJsonCallback implements Callback {
      */
     private void handlerResponse(String result) {
         if (TextUtils.isEmpty(result)){
-            onFailed(new OkHttpException(NETWORK_ERROR, EMPTY_MSG));
+            onFailed(mDisposeDataListener, NETWORK_ERROR, EMPTY_MSG);
             return;
         }
 
         try {
             if (null == mClazz){
                 //不做Json数据处理直接抛给应用层
-                onSuccess(result);
+                onSuccess(mDisposeDataListener, result);
             } else {
                 Object obj = ResponseEntityToModule.parseJsonToModule(result, mClazz);
                 if (null == obj){
-                    onFailed(new OkHttpException(JSON_ERROR, EMPTY_MSG));
+                    onFailed(mDisposeDataListener, JSON_ERROR, EMPTY_MSG);
                 } else {
-                    onSuccess(obj);
+                    onSuccess(mDisposeDataListener, obj);
                 }
             }
         } catch (Exception e){
-            onFailed(new OkHttpException(JSON_ERROR, e));
+            onFailed(mDisposeDataListener, JSON_ERROR, e);
         }
     }
-
-    private void handlerMainUI(Runnable runnable) {
-        if (null == mDeliverHandler || null == runnable) {
-            return;
-        }
-        mDeliverHandler.post(runnable);
-    }
-
-
-    private void onFailed(Object responseObj) {
-        if (null != mDisposeDataListener){
-            mDisposeDataListener.onFailed(responseObj);
-        }
-    }
-
-    private void onSuccess(Object responseObj) {
-        if (null != mDisposeDataListener){
-            mDisposeDataListener.onSuccess(responseObj);
-        }
-    }
-
 }

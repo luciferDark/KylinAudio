@@ -65,7 +65,7 @@ public class ResponseEntityToModule {
         continue;
       }
       if (cls.isPrimitive() || isWrappedPrimitive(
-          cls))// 锟斤拷锟斤拷腔锟斤拷锟斤拷锟斤拷锟絙oolean,byte,char,short,int,long,float,double,void
+          cls))// boolean,byte,char,short,int,long,float,double,void
       {
         setPrimitiveFieldValue(f, moduleObj, jsonObj.get(name));
       } else {
