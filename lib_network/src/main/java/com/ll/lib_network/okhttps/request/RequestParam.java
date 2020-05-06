@@ -13,7 +13,7 @@ public class RequestParam {
     public ConcurrentHashMap<String, Object> fileParams = new ConcurrentHashMap<>();
 
     public RequestParam() {
-        this((Map<String, String>)null);
+        this((Map<String, String>) null);
     }
 
     public RequestParam(Map<String, String> source) {
@@ -27,27 +27,27 @@ public class RequestParam {
     }
 
     public RequestParam(final String key, final String value) {
-        this(new HashMap<String, String>(){
+        this(new HashMap<String, String>() {
             {
                 put(key, value);
             }
         });
     }
 
-    private void put(String key, String value) {
-        if (null != key && null != value){
+    public void put(String key, String value) {
+        if (null != key && null != value) {
             urlParams.put(key, value);
         }
     }
 
-    private void put(String key, Object object) throws FileNotFoundException {
-        if (null != key ){
+    public void put(String key, Object object) throws FileNotFoundException {
+        if (null != key) {
             fileParams.put(key, object);
         }
     }
 
-    public boolean hasParams(){
-        if (urlParams.size() > 0 || fileParams.size() > 0){
+    public boolean hasParams() {
+        if (urlParams.size() > 0 || fileParams.size() > 0) {
             return true;
         }
         return false;

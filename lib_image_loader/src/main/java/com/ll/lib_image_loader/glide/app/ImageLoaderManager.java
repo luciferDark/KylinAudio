@@ -114,7 +114,7 @@ public class ImageLoaderManager {
      * @param url
      */
     public void loadImageForCircle(final ImageView view, String url) {
-        loadImageForView(view, url, null);
+        loadImageForCircle(view, url, null);
     }
 
     /**

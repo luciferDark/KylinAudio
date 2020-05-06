@@ -11,8 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ll.audio.R;
+import com.ll.audio.api.ApiCenter;
+import com.ll.audio.events.LoginEvent;
+import com.ll.audio.model.user.UserManager;
+import com.ll.audio.model.user.UserProtocol;
 import com.ll.audio.view.home.HomeActivity;
 import com.ll.lib_common_ui.base.BaseFragmentActivity;
+import com.ll.lib_network.okhttps.response.listener.DisposeDataListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * 登录面板
@@ -20,7 +27,8 @@ import com.ll.lib_common_ui.base.BaseFragmentActivity;
  * @author kylin
  * @date 2020/4/16
  */
-public class LoginActivity extends BaseFragmentActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class LoginActivity extends BaseFragmentActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener ,DisposeDataListener{
+    public static final String TAG = "KYLIN";
 
     private TextView mLoginPhone, mUserProtocol, mPrivacyPolicy, mChildrenPrivacyPolicy;
     private CheckBox mProtocolAgree;
@@ -66,6 +74,7 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
 
         switch (id) {
             case R.id.home_login_phone:
+                onClickLogin();
                 break;
             case R.id.home_protocol_user_protocol:
                 break;
@@ -84,8 +93,35 @@ public class LoginActivity extends BaseFragmentActivity implements View.OnClickL
         }
     }
 
+    private void onClickLogin() {
+        ApiCenter.login(LoginActivity.this);
+    }
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+    }
+
+    @Override
+    public void onSuccess(Object responseObj) {
+        try {
+            UserProtocol userProtocol = (UserProtocol) responseObj;
+            Log.d(TAG, "onSuccess: " + userProtocol);
+            UserManager.getInstance().setUser(userProtocol);
+            if (userProtocol.ecode == 0){
+                EventBus.getDefault().post(new LoginEvent(LoginEvent.SUCCESS, "loginSuccess", responseObj));
+                LoginActivity.this.finish();
+            } else {
+                EventBus.getDefault().post(new LoginEvent(LoginEvent.FAILED, "failed", responseObj));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            EventBus.getDefault().post(new LoginEvent(LoginEvent.FAILED, "failed"));
+        }
+    }
+
+    @Override
+    public void onFailed(Object responseObj) {
+        EventBus.getDefault().post(new LoginEvent(LoginEvent.FAILED, "failed", responseObj));
     }
 }

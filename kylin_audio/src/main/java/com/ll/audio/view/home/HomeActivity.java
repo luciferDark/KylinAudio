@@ -8,17 +8,24 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ll.audio.R;
+import com.ll.audio.events.LoginEvent;
 import com.ll.audio.model.Channel;
+import com.ll.audio.model.user.UserManager;
+import com.ll.audio.model.user.UserProtocol;
 import com.ll.audio.view.home.adpaters.HomeViewPagerAdapter;
 import com.ll.audio.view.login.LoginActivity;
 import com.ll.lib_common_ui.base.BaseFragmentActivity;
 import com.ll.lib_common_ui.viewPageIndictors.ScaleTransitionPageTitleView;
+import com.ll.lib_image_loader.glide.app.ImageLoaderManager;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -27,6 +34,10 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNav
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * @Auther Kylin
@@ -46,12 +57,16 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
     private ViewPager mViewPager;
     private MagicIndicator mMagicIndicator;
     private HomeViewPagerAdapter mViewPagerAdapter;
-
     private TextView mUserLogin;
+
+    private ImageView categoryPortrait;
+    private LinearLayout categoryUnloginLayout;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(HomeActivity.this);
         setContentView(R.layout.activity_home);
 
         initViews();
@@ -69,6 +84,8 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
         mMagicIndicator = findViewById(R.id.home_magic_indicator);
         mUserLogin = findViewById(R.id.home_category_login);
 
+        categoryPortrait = findViewById(R.id.home_category_portrait);
+        categoryUnloginLayout = findViewById(R.id.home_category_unlogin_layout);
 
         mCategory.setOnClickListener(this);
         mSearch.setOnClickListener(this);
@@ -82,7 +99,7 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
      * 初始化viewpager
      */
     private void initViewPager() {
-        if (null != mViewPager){
+        if (null != mViewPager) {
             mViewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager(),
                     CHANNELS);
             mViewPager.setAdapter(mViewPagerAdapter);
@@ -114,7 +131,7 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
                 mTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(null == mViewPager){
+                        if (null == mViewPager) {
                             return;
                         }
                         mViewPager.setCurrentItem(index);
@@ -145,24 +162,76 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        EventBus.getDefault().unregister(HomeActivity.this);
+    }
+
+    @Override
     public void onClick(View v) {
         final int id = v.getId();
 
-        switch (id){
+        switch (id) {
             case R.id.home_category_view:
-                if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
-                    mDrawerLayout.openDrawer(Gravity.LEFT);
-                }
-
+                onClickCategory();
                 break;
             case R.id.home_search_view:
                 break;
             case R.id.home_category_login:
-                Log.d(TAG, "click the login button");
-                startActivity(HomeActivity.this, LoginActivity.class);
+                onClickLogin();
                 break;
         }
+    }
+
+    private void onClickCategory() {
+        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+        } else {
+            showLoginedStatus(UserManager.getInstance().hasLogined());
+            mDrawerLayout.openDrawer(Gravity.LEFT);
+        }
+    }
+
+    private void onClickLogin() {
+        Log.d(TAG, "click the login button");
+
+        if (!UserManager.getInstance().hasLogined()) {
+            startActivity(HomeActivity.this, LoginActivity.class);
+        } else {
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLogin(LoginEvent event) {
+        if (null == event) {
+            return;
+        }
+
+        if (event.getCode() == LoginEvent.SUCCESS) {
+            Log.d(TAG, "onLogin: SUCCESS");
+            showLoginedStatus(true);
+            if (!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+        } else if (event.getCode() == LoginEvent.FAILED) {
+            Log.d(TAG, "onLogin: FAILED");
+        }
+    }
+
+    private void showLoginedStatus(boolean isLogin) {
+        if (null == categoryPortrait || null == categoryUnloginLayout) {
+            return;
+        }
+
+        categoryPortrait.setVisibility(isLogin ? View.VISIBLE : View.GONE);
+        UserProtocol user = UserManager.getInstance().getUser();
+        if (null != user && null != user.data && !TextUtils.isEmpty(user.data.photoUrl)) {
+            Log.d(TAG, "showLoginedStatus: "+ user.data.photoUrl);
+            String urlReplace = "http://img1.imgtn.bdimg.com/it/u=3170379310,1742401393&fm=11&gp=0.jpg";
+            ImageLoaderManager.newInstance().loadImageForCircle(categoryPortrait, urlReplace);
+        }
+        categoryUnloginLayout.setVisibility(isLogin ? View.GONE : View.VISIBLE);
     }
 }
