@@ -117,7 +117,6 @@ public class SpreadWaveViewAnimatorController extends BaseViewAnimatorController
 
     @Override
     public void draw(Canvas canvas) {
-        Log.d("kylin", "draw");
         for (int i = 0; i < circleNum; i++) {
             canvas.save();
             //获取每个点的坐标点
@@ -131,7 +130,6 @@ public class SpreadWaveViewAnimatorController extends BaseViewAnimatorController
 
     @Override
     public List<Animator> createAnimators() {
-        Log.d("kylin", "createAnimators");
         List<Animator> animators = new ArrayList<Animator>();
         int repeatCount = Animation.INFINITE;
         for (int i = 0; i < circleNum; i++) {

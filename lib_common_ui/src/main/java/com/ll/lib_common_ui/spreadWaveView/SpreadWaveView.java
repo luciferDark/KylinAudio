@@ -63,8 +63,6 @@ public class SpreadWaveView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         w = measureDimension(ScreenUtil.dip2px(getContext(), DEFAULTSIZE), widthMeasureSpec);
         h = measureDimension(ScreenUtil.dip2px(getContext(), DEFAULTSIZE), heightMeasureSpec);
-        Log.d("kylin", "onMeasure center w=" + w);
-        Log.d("kylin", "onMeasure center h=" + h);
         setMeasuredDimension(w, h);
 //        postInvalidate();
     }
@@ -74,7 +72,6 @@ public class SpreadWaveView extends View {
         int result = defaultSize;
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
-        Log.d("kylin", "onMeasure specSize =" + specSize);
         if (specMode == MeasureSpec.AT_MOST) {
             result = specSize;
         } else if (specMode == MeasureSpec.EXACTLY) {
