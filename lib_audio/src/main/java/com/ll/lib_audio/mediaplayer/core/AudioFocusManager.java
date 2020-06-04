@@ -1,4 +1,4 @@
-package com.ll.lib_audio.mediaplayer.audio;
+package com.ll.lib_audio.mediaplayer.core;
 
 import android.content.Context;
 import android.media.AudioManager;

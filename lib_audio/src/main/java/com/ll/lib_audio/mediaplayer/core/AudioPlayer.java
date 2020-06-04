@@ -1,4 +1,4 @@
-package com.ll.lib_audio.mediaplayer.audio;
+package com.ll.lib_audio.mediaplayer.core;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -12,10 +12,10 @@ import android.util.Log;
 
 import com.ll.lib_audio.mediaplayer.app.AudioHelper;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
-import com.ll.lib_audio.mediaplayer.core.CommonMediaPlayer;
 import com.ll.lib_audio.mediaplayer.event.AudioEvent;
 
 import org.greenrobot.eventbus.EventBus;
+
 
 /**
  * @Auther Kylin
