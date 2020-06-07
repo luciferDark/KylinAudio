@@ -32,6 +32,9 @@ dependencies {
     androidTestImplementation rootProject.depsLibs.espresso_core
 
     implementation rootProject.depsLibs.eventbus
+    implementation rootProject.depsLibs.annotations
+
+    implementation project(path: ':lib_image_loader')
 }
 
 def pomName = this.getName()

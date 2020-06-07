@@ -204,6 +204,24 @@ public class AudioController {
     }
 
     /**
+     * 获取当前是否是准备状态
+     *
+     * @return
+     */
+    public boolean isIdleState() {
+        return CommonMediaPlayer.Status.IDLE == getStatus();
+    }
+
+    /**
+     * 获取当前是否是停止状态
+     *
+     * @return
+     */
+    public boolean isStopState() {
+        return CommonMediaPlayer.Status.STOPED == getStatus();
+    }
+
+    /**
      * 获取当前播放状态
      *
      * @return

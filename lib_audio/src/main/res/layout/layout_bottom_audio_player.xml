@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/bottom_audio_player_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bottom_audio_player_divider"
+        android:paddingStart="5dp"
+        android:paddingTop="5dp">
+
+        <ImageView
+            android:id="@+id/bottom_audio_player_album_img"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@android:mipmap/sym_def_app_icon" />
+
+        <ImageView
+            android:id="@+id/bottom_audio_player_music_list"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            app:srcCompat="@mipmap/audio_black_cat" />
+
+        <ImageView
+            android:id="@+id/bottom_audio_player_start_or_pause"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/bottom_audio_player_music_list"
+            app:srcCompat="@mipmap/note_btn_play_white" />
+
+        <TextView
+            android:id="@+id/bottom_audio_player_music_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/bottom_audio_player_album_img"
+            android:layout_toEndOf="@+id/bottom_audio_player_album_img"
+            android:ellipsize="end"
+            android:fontFamily="casual"
+            android:maxEms="10"
+            android:text="TextView"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/bottom_audio_player_music_single"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/bottom_audio_player_album_img"
+            android:layout_toEndOf="@+id/bottom_audio_player_album_img"
+            android:ellipsize="end"
+            android:fontFamily="casual"
+            android:maxEms="14"
+            android:text="TextView"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <view
+        android:id="@+id/bottom_audio_player_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dddddd" />
+</RelativeLayout>
