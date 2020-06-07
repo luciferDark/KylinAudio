@@ -23,6 +23,8 @@ import com.ll.audio.model.user.UserManager;
 import com.ll.audio.model.user.UserProtocol;
 import com.ll.audio.view.home.adpaters.HomeViewPagerAdapter;
 import com.ll.audio.view.login.LoginActivity;
+import com.ll.lib_audio.mediaplayer.bean.AudioBean;
+import com.ll.lib_audio.mediaplayer.core.AudioController;
 import com.ll.lib_common_ui.base.BaseFragmentActivity;
 import com.ll.lib_common_ui.viewPageIndictors.ScaleTransitionPageTitleView;
 import com.ll.lib_image_loader.glide.app.ImageLoaderManager;
@@ -38,6 +40,8 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.Simple
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 
 /**
  * @Auther Kylin
@@ -61,7 +65,10 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
 
     private ImageView categoryPortrait;
     private LinearLayout categoryUnloginLayout;
-
+    /**
+     * test data
+     */
+    private ArrayList<AudioBean> mLists = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -159,6 +166,26 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
      * 初始化Datas
      */
     private void initData() {
+        mLists.add(new AudioBean("100001", "七里香", "http://sp-sycdn.kuwo.cn/resource/n2/85/58/433900159.mp3", "周杰伦", "周杰伦信息",
+                "以你的名字喊我", "电影《不能说的秘密》主题曲,尤其以最美的不是下雨天,是与你一起躲过雨的屋檐最为经典",
+                "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559698076304&di=e6e99aa943b72ef57b97f0be3e0d2446&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201401%2F04%2F20140104170315_XdG38.jpeg",
+                "4:30"));
+        mLists.add(
+                new AudioBean("100002", "勇气", "http://sq-sycdn.kuwo.cn/resource/n1/98/51/3777061809.mp3", "梁静茹", "周杰伦信息",
+                        "勇气", "电影《勇气》主题曲,尤其以最美的不是下雨天,是与你一起躲过雨的屋檐最为经典",
+                        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559698193627&di=711751f16fefddbf4cbf71da7d8e6d66&imgtype=jpg&src=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D213168965%2C1040740194%26fm%3D214%26gp%3D0.jpg",
+                        "4:40"));
+        mLists.add(
+                new AudioBean("100003", "春天里", "http://sp-sycdn.kuwo.cn/resource/n2/52/80/2933081485.mp3", "汪峰", "汪峰信息",
+                        "灿烂如你", "电影《不能说的秘密》主题曲,尤其以最美的不是下雨天,是与你一起躲过雨的屋檐最为经典",
+                        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559698239736&di=3433a1d95c589e31a36dd7b4c176d13a&imgtype=0&src=http%3A%2F%2Fpic.zdface.com%2Fupload%2F201051814737725.jpg",
+                        "3:20"));
+        mLists.add(
+                new AudioBean("100004", "小幸运", "http://sr-sycdn.kuwo.cn/resource/n2/33/25/2629654819.mp3", "五月天", "五月天信息", "小情歌",
+                        "电影《不能说的秘密》主题曲,尤其以最美的不是下雨天,是与你一起躲过雨的屋檐最为经典",
+                        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559698289780&di=5146d48002250bf38acfb4c9b4bb6e4e&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20131220%2Fbki-20131220170401-1254350944.jpg",
+                        "2:45"));
+        AudioController.getInstance().setQueue(mLists);
     }
 
     @Override
@@ -228,7 +255,7 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
         categoryPortrait.setVisibility(isLogin ? View.VISIBLE : View.GONE);
         UserProtocol user = UserManager.getInstance().getUser();
         if (null != user && null != user.data && !TextUtils.isEmpty(user.data.photoUrl)) {
-            Log.d(TAG, "showLoginedStatus: "+ user.data.photoUrl);
+            Log.d(TAG, "showLoginedStatus: " + user.data.photoUrl);
             String urlReplace = "http://img1.imgtn.bdimg.com/it/u=3170379310,1742401393&fm=11&gp=0.jpg";
             ImageLoaderManager.newInstance().loadImageForCircle(categoryPortrait, urlReplace);
         }

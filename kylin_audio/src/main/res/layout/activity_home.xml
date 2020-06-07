@@ -50,7 +50,13 @@
             android:id="@+id/home_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/home_title_layout" /> <!-- viewpager内容显示器 -->
+            android:layout_below="@+id/home_title_layout" /><!-- viewpager内容显示器 -->
+
+        <com.ll.lib_audio.mediaplayer.view.BottomAudioView
+            android:id="@+id/bottom_audio_player_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
     </RelativeLayout><!-- 内容显示 -->
 
     <RelativeLayout
@@ -72,9 +78,9 @@
 
                 <!-- 抽屉登录区域 -->
                 <RelativeLayout
-                    android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
 
                     <ImageView
                         android:id="@+id/home_category_portrait"
