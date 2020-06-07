@@ -56,17 +56,17 @@ public class AudioPlayer implements
     }
 
     private void init() {
-        mCommonMediaPlayer = new CommonMediaPlayer();
-        mCommonMediaPlayer.setWakeMode(null, PowerManager.PARTIAL_WAKE_LOCK);//低电量版本播放模式
-        mCommonMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        // 注册监听器
-        mCommonMediaPlayer.setOnPreparedListener(this);
-        mCommonMediaPlayer.setOnBufferingUpdateListener(this);
-        mCommonMediaPlayer.setOnCompletionListener(this);
-        mCommonMediaPlayer.setOnErrorListener(this);
-
         Context mContext = AudioHelper.getInstance().getContext();
         if (null != mContext) {
+            mCommonMediaPlayer = new CommonMediaPlayer();
+            mCommonMediaPlayer.setWakeMode(mContext, PowerManager.PARTIAL_WAKE_LOCK);//低电量版本播放模式
+            mCommonMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            // 注册监听器
+            mCommonMediaPlayer.setOnPreparedListener(this);
+            mCommonMediaPlayer.setOnBufferingUpdateListener(this);
+            mCommonMediaPlayer.setOnCompletionListener(this);
+            mCommonMediaPlayer.setOnErrorListener(this);
+
             mWifiLock = ((WifiManager) mContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE))
                     .createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
             mAudioFocusManager = new AudioFocusManager(mContext, this);
