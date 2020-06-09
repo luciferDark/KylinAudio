@@ -1,5 +1,6 @@
 package com.ll.lib_audio.mediaplayer.view;
 
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -47,7 +48,7 @@ public class BottomAudioView extends RelativeLayout {
     /**
      * Animator
      */
-    private ValueAnimator mRotateAnimator;
+    private ObjectAnimator mRotateAnimator;
 
     public BottomAudioView(Context context) {
         this(context, null);
@@ -59,6 +60,7 @@ public class BottomAudioView extends RelativeLayout {
 
     public BottomAudioView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        EventBus.getDefault().register(this);
         mContext = context;
         init(context, attrs, defStyleAttr);
     }
@@ -71,11 +73,10 @@ public class BottomAudioView extends RelativeLayout {
         mPlayOrPauseBtn = root.findViewById(R.id.bottom_audio_player_start_or_pause);
         mMusicList = root.findViewById(R.id.bottom_audio_player_music_list);
 
-        mRotateAnimator = ValueAnimator.ofInt(0, 360);
+        mRotateAnimator = ObjectAnimator.ofFloat(mAlbumImg, View.ROTATION.getName(), 0f, 360);
         mRotateAnimator.setDuration(2 * 1000);
         mRotateAnimator.setRepeatCount(Animation.INFINITE);
         mRotateAnimator.setInterpolator(new LinearInterpolator());
-
         if (AudioController.getInstance().isStartState()) {
             mRotateAnimator.start();
         } else {
@@ -122,12 +123,14 @@ public class BottomAudioView extends RelativeLayout {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAudioEvent(AudioEvent event) {
-        this.mAudioBean = event.audioBean;
         switch (event.eventCode) {
             case EVENT_LOAD:
                 onAudioEvent_ShowLoadView(event);
                 break;
             case EVENT_START:
+                onAudioEvent_ShowStartView(event);
+                break;
+            case EVENT_RESUME:
                 onAudioEvent_ShowStartView(event);
                 break;
             case EVENT_PASUE:
@@ -142,6 +145,7 @@ public class BottomAudioView extends RelativeLayout {
      * @param event
      */
     private void onAudioEvent_ShowLoadView(AudioEvent event) {
+        this.mAudioBean = event.audioBean;
         if (null == this.mAudioBean) {
             return;
         }
@@ -157,12 +161,10 @@ public class BottomAudioView extends RelativeLayout {
      * @param event
      */
     private void onAudioEvent_ShowStartView(AudioEvent event) {
-        if (null == this.mAudioBean) {
-            return;
-        }
-
         this.mPlayOrPauseBtn.setImageResource(R.mipmap.note_btn_play_white);
         if (this.mRotateAnimator.isPaused()) {
+            this.mRotateAnimator.resume();
+        } else {
             this.mRotateAnimator.start();
         }
     }
@@ -173,19 +175,15 @@ public class BottomAudioView extends RelativeLayout {
      * @param event
      */
     private void onAudioEvent_ShowPauseView(AudioEvent event) {
-        if (null == this.mAudioBean) {
-            return;
-        }
         this.mPlayOrPauseBtn.setImageResource(R.mipmap.note_btn_pause_white);
-        if (this.mRotateAnimator.isStarted() || this.mRotateAnimator.isStarted()) {
+//        if (this.mRotateAnimator.isStarted() || this.mRotateAnimator.isRunning()) {
             this.mRotateAnimator.pause();
-        }
+//        }
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        EventBus.getDefault().register(this);
     }
 
     @Override
