@@ -1,6 +1,6 @@
 package com.ll.lib_audio.mediaplayer.bean;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 /**
  * @Auther Kylin
@@ -19,8 +19,8 @@ public class AudioBean {
     private String albumPic;
     private String totalTime;
 
-    public AudioBean(String id, @NotNull String name, @NotNull String url, @NotNull String singer,  String singerInfo
-            , @NotNull String album, @NotNull String albumInfo, @NotNull String albumPic, @NotNull String totalTime) {
+    public AudioBean(String id, @NonNull String name, @NonNull String url, @NonNull String singer, String singerInfo
+            , @NonNull String album, @NonNull String albumInfo, @NonNull String albumPic, @NonNull String totalTime) {
         this.id = id;
         this.name = name;
         this.url = url;

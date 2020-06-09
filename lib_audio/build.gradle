@@ -12,6 +12,13 @@ android {
         versionName rootProject.android.versionName
         multiDexEnabled rootProject.android.multiDexEnabled
         testInstrumentationRunner rootProject.android.testInstrumentationRunner
+
+        //添加了javaCompileOptions
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
     }
 
     buildTypes {
@@ -32,7 +39,6 @@ dependencies {
     androidTestImplementation rootProject.depsLibs.espresso_core
 
     implementation rootProject.depsLibs.eventbus
-    implementation rootProject.depsLibs.annotations
 
     implementation project(path: ':lib_image_loader')
 }
