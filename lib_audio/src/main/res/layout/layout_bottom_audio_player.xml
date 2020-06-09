@@ -64,7 +64,7 @@
             android:textSize="16sp" />
     </RelativeLayout>
 
-    <view
+    <View
         android:id="@+id/bottom_audio_player_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"

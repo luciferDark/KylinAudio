@@ -186,6 +186,7 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
                         "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559698289780&di=5146d48002250bf38acfb4c9b4bb6e4e&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20131220%2Fbki-20131220170401-1254350944.jpg",
                         "2:45"));
         AudioController.getInstance().setQueue(mLists);
+        AudioController.getInstance().play();
     }
 
     @Override

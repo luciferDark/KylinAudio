@@ -1,9 +1,12 @@
 package com.ll.lib_audio.mediaplayer.core;
 
+import com.ll.lib_audio.mediaplayer.event.AudioEvent;
 import com.ll.lib_audio.mediaplayer.exception.AudioQueueEmptyException;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -349,5 +352,22 @@ public class AudioController {
                 break;
         }
         return getPlaying();
+    }
+
+    /**
+     *  处理接收的播放完成和出错事件
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCurrentAudioEvent(AudioEvent event) {
+        AudioEvent.Status code = event.eventCode;
+        switch (code) {
+            case EVENT_COMPLETION:
+                // todo 处理接收的播放完成事件
+                break;
+            case EVENT_ERROR:
+                // todo 处理接收的播放出错事件
+                break;
+        }
     }
 }

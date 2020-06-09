@@ -13,6 +13,7 @@ import android.util.Log;
 import com.ll.lib_audio.mediaplayer.app.AudioHelper;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
 import com.ll.lib_audio.mediaplayer.event.AudioEvent;
+import com.ll.lib_audio.mediaplayer.exception.AudioContextNullException;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -70,6 +71,8 @@ public class AudioPlayer implements
             mWifiLock = ((WifiManager) mContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE))
                     .createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
             mAudioFocusManager = new AudioFocusManager(mContext, this);
+        } else {
+            throw new AudioContextNullException();
         }
     }
 
@@ -86,6 +89,7 @@ public class AudioPlayer implements
             // UIEvent -- 加载完成
             EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_LOAD, "audio load", audioBean));
         } catch (Exception e) {
+            Log.d(TAG, "loadAudio: " + e.getMessage());
             e.printStackTrace();
             // UIEvent -- 加载异常
             EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_LOAD_ERROR, "audio error :" + e.getMessage(), audioBean));
