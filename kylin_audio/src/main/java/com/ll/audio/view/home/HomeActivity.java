@@ -257,7 +257,7 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
         UserProtocol user = UserManager.getInstance().getUser();
         if (null != user && null != user.data && !TextUtils.isEmpty(user.data.photoUrl)) {
             Log.d(TAG, "showLoginedStatus: " + user.data.photoUrl);
-            String urlReplace = "http://img1.imgtn.bdimg.com/it/u=3170379310,1742401393&fm=11&gp=0.jpg";
+            String urlReplace = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559698076304&di=e6e99aa943b72ef57b97f0be3e0d2446&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201401%2F04%2F20140104170315_XdG38.jpeg";
             ImageLoaderManager.newInstance().loadImageForCircle(categoryPortrait, urlReplace);
         }
         categoryUnloginLayout.setVisibility(isLogin ? View.GONE : View.VISIBLE);

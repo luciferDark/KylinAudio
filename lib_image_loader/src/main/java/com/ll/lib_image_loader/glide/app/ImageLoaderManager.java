@@ -295,7 +295,7 @@ public class ImageLoaderManager {
                 .asBitmap()
                 .load(url)
                 .apply(mOptions)
-                .transition(BitmapTransitionOptions.withCrossFade())//图片加载显示效果
+//                .transition(BitmapTransitionOptions.withCrossFade())//图片加载显示效果
                 .into(target);
     }
 }
