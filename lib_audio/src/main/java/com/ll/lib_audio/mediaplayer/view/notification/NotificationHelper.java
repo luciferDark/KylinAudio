@@ -13,6 +13,7 @@ import android.widget.RemoteViews;
 import com.ll.lib_audio.R;
 import com.ll.lib_audio.mediaplayer.app.AudioHelper;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
+import com.ll.lib_image_loader.glide.app.ImageLoaderManager;
 
 /**
  * @Auther Kylin
@@ -107,5 +108,20 @@ public class NotificationHelper {
 
         mBigNotificationView.setTextViewText(R.id.notification_big_audio_name, mAudioBean.getName());
         mBigNotificationView.setTextViewText(R.id.notification_big_audio_single, mAudioBean.getSinger());
+
+        mSmallNotificationView.setTextViewText(R.id.notification_small_audio_name, mAudioBean.getName());
+        mSmallNotificationView.setTextViewText(R.id.notification_small_audio_single, mAudioBean.getSinger());
+
+        Context mContext = AudioHelper.getInstance().getContext();
+        ImageLoaderManager.newInstance().loadImageForNotification(mContext, R.id.notification_big_album_img,
+                mBigNotificationView, mNotification, NOTIFICATION_ID, mAudioBean.getAlbumPic());
+        ImageLoaderManager.newInstance().loadImageForNotification(mContext, R.id.notification_small_album_img,
+                mSmallNotificationView, mNotification, NOTIFICATION_ID, mAudioBean.getAlbumPic());
+
+        mBigNotificationView.setImageViewResource(R.id.notification_big_favor, isFavor() ? R.mipmap.note_btn_loved : R.mipmap.note_btn_love_white);
+    }
+
+    private boolean isFavor() {
+        return false;
     }
 }

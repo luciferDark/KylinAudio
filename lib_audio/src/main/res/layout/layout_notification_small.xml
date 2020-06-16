@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/notification_small_id"
+        android:id="@+id/notification_small_album_img"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_alignParentStart="true"
@@ -15,10 +15,10 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/notification_small_id"
-        android:layout_alignBottom="@+id/notification_small_id"
+        android:layout_alignTop="@+id/notification_small_album_img"
+        android:layout_alignBottom="@+id/notification_small_album_img"
         android:layout_marginStart="20dp"
-        android:layout_toEndOf="@+id/notification_small_id"
+        android:layout_toEndOf="@+id/notification_small_album_img"
         android:orientation="vertical">
 
         <TextView
