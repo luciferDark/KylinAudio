@@ -13,6 +13,7 @@ import android.widget.RemoteViews;
 import com.ll.lib_audio.R;
 import com.ll.lib_audio.mediaplayer.app.AudioHelper;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
+import com.ll.lib_audio.mediaplayer.core.AudioService;
 import com.ll.lib_image_loader.glide.app.ImageLoaderManager;
 
 /**
@@ -71,10 +72,14 @@ public class NotificationHelper {
         }
     }
 
+    /**
+     *  初始化Notification
+     */
     private void initNotifications() {
         if (null == mNotification) {
             //创建布局
-            initLayout();
+            initUILayout();
+            initListener();
             // 创建通知
             Intent intent = new Intent(AudioHelper.getInstance().getContext(), null);//todo add Intent
             PendingIntent pendingIntent = PendingIntent.getActivity(AudioHelper.getInstance().getContext()
@@ -100,25 +105,72 @@ public class NotificationHelper {
 
     }
 
-    private void initLayout() {
+    /**
+     * 初始化UI布局
+     */
+    private void initUILayout() {
         int layoutBigId = R.layout.layout_notification_big;
         int layoutSmallId = R.layout.layout_notification_small;
-        mBigNotificationView = new RemoteViews(mPackageName, layoutBigId);
-        mSmallNotificationView = new RemoteViews(mPackageName, layoutSmallId);
+        Context mContext = AudioHelper.getInstance().getContext();
 
+        mBigNotificationView = new RemoteViews(mPackageName, layoutBigId);
         mBigNotificationView.setTextViewText(R.id.notification_big_audio_name, mAudioBean.getName());
         mBigNotificationView.setTextViewText(R.id.notification_big_audio_single, mAudioBean.getSinger());
-
-        mSmallNotificationView.setTextViewText(R.id.notification_small_audio_name, mAudioBean.getName());
-        mSmallNotificationView.setTextViewText(R.id.notification_small_audio_single, mAudioBean.getSinger());
-
-        Context mContext = AudioHelper.getInstance().getContext();
+        mBigNotificationView.setImageViewResource(R.id.notification_big_music_play, R.mipmap.note_btn_play_white);
+        mBigNotificationView.setImageViewResource(R.id.notification_big_music_next, R.mipmap.note_btn_next_white);
+        mBigNotificationView.setImageViewResource(R.id.notification_big_music_prev, R.mipmap.note_btn_pre_white);
+        mBigNotificationView.setImageViewResource(R.id.notification_big_music_favor, isFavor() ? R.mipmap.note_btn_loved : R.mipmap.note_btn_love_white);
         ImageLoaderManager.newInstance().loadImageForNotification(mContext, R.id.notification_big_album_img,
                 mBigNotificationView, mNotification, NOTIFICATION_ID, mAudioBean.getAlbumPic());
+
+        mSmallNotificationView = new RemoteViews(mPackageName, layoutSmallId);
+        mSmallNotificationView.setTextViewText(R.id.notification_small_audio_name, mAudioBean.getName());
+        mSmallNotificationView.setTextViewText(R.id.notification_small_audio_single, mAudioBean.getSinger());
+        mSmallNotificationView.setImageViewResource(R.id.notification_small_music_play, R.mipmap.note_btn_play_white);
+        mSmallNotificationView.setImageViewResource(R.id.notification_small_music_next, R.mipmap.note_btn_next_white);
         ImageLoaderManager.newInstance().loadImageForNotification(mContext, R.id.notification_small_album_img,
                 mSmallNotificationView, mNotification, NOTIFICATION_ID, mAudioBean.getAlbumPic());
+    }
 
-        mBigNotificationView.setImageViewResource(R.id.notification_big_favor, isFavor() ? R.mipmap.note_btn_loved : R.mipmap.note_btn_love_white);
+    /**
+     * 初始化按钮监听器
+     */
+    private void initListener() {
+        PendingIntent pendingPlayPause = createNotificationPendingIntent(AudioService.AudioBroadcastReceiver.REQUEST_CODE_PLAY_PAUSE,
+                AudioService.AudioBroadcastReceiver.EXTRA_PLAY_PAUSE);
+        PendingIntent pendingPrev = createNotificationPendingIntent(AudioService.AudioBroadcastReceiver.REQUEST_CODE_PREV,
+                AudioService.AudioBroadcastReceiver.EXTRA_PREV);
+        PendingIntent pendingNext = createNotificationPendingIntent(AudioService.AudioBroadcastReceiver.REQUEST_CODE_NEXT,
+                AudioService.AudioBroadcastReceiver.EXTRA_NEXT);
+        PendingIntent pendingFavor = createNotificationPendingIntent(AudioService.AudioBroadcastReceiver.REQUEST_CODE_FAVOR,
+                AudioService.AudioBroadcastReceiver.EXTRA_FAVOR);
+
+        mBigNotificationView.setOnClickPendingIntent(R.id.notification_big_music_play, pendingPlayPause);
+        mBigNotificationView.setOnClickPendingIntent(R.id.notification_big_music_prev, pendingPrev);
+        mBigNotificationView.setOnClickPendingIntent(R.id.notification_big_music_next, pendingNext);
+        mBigNotificationView.setOnClickPendingIntent(R.id.notification_big_music_favor, pendingFavor);
+
+        mSmallNotificationView.setOnClickPendingIntent(R.id.notification_small_music_play, pendingPlayPause);
+        mSmallNotificationView.setOnClickPendingIntent(R.id.notification_small_music_next, pendingNext);
+    }
+
+    /**
+     * 创建PendingIntent
+     * @param requestCode
+     * @param extraValue
+     * @return
+     */
+    private PendingIntent createNotificationPendingIntent(int requestCode, String extraValue) {
+        Intent intent = new Intent();
+        intent.setAction(AudioService.AudioBroadcastReceiver.ACTION_AUDIO_BROADCAST);
+        intent.putExtra(AudioService.AudioBroadcastReceiver.EXTRA, extraValue);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(AudioHelper.getInstance().getContext(),
+                requestCode,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        return pendingIntent;
     }
 
     private boolean isFavor() {

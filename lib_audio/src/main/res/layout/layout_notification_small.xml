@@ -53,15 +53,17 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
+            android:src="@mipmap/note_btn_play_white"
             android:scaleType="fitXY" />
 
         <ImageView
-            android:id="@+id/notification_small_music_play_next"
+            android:id="@+id/notification_small_music_next"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:contentDescription="@string/app_name"
+            android:src="@mipmap/note_btn_next_white"
             android:scaleType="fitXY" />
 
         <TextView
