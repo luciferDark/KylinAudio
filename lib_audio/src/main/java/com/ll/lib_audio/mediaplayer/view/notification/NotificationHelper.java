@@ -20,7 +20,8 @@ import com.ll.lib_image_loader.glide.app.ImageLoaderManager;
  * @Auther Kylin
  * @Data 2020/6/16 - 10:12
  * @Package com.ll.lib_audio.mediaplayer.notification
- * @Description
+ * @Description 1：notification的创建和大小view的初始化
+ *                          2：提供对外更新Notification的方法
  */
 public class NotificationHelper {
     //------------------单例----------------------//
@@ -59,7 +60,6 @@ public class NotificationHelper {
         void onNotificationInit();
     }
 
-
     public void init(NotificationHelperListener listener) {
         mNotificationManager = (NotificationManager) AudioHelper.getInstance()
                 .getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -73,7 +73,7 @@ public class NotificationHelper {
     }
 
     /**
-     *  初始化Notification
+     * 初始化Notification
      */
     private void initNotifications() {
         if (null == mNotification) {
@@ -111,25 +111,18 @@ public class NotificationHelper {
     private void initUILayout() {
         int layoutBigId = R.layout.layout_notification_big;
         int layoutSmallId = R.layout.layout_notification_small;
-        Context mContext = AudioHelper.getInstance().getContext();
 
         mBigNotificationView = new RemoteViews(mPackageName, layoutBigId);
-        mBigNotificationView.setTextViewText(R.id.notification_big_audio_name, mAudioBean.getName());
-        mBigNotificationView.setTextViewText(R.id.notification_big_audio_single, mAudioBean.getSinger());
         mBigNotificationView.setImageViewResource(R.id.notification_big_music_play, R.mipmap.note_btn_play_white);
         mBigNotificationView.setImageViewResource(R.id.notification_big_music_next, R.mipmap.note_btn_next_white);
         mBigNotificationView.setImageViewResource(R.id.notification_big_music_prev, R.mipmap.note_btn_pre_white);
         mBigNotificationView.setImageViewResource(R.id.notification_big_music_favor, isFavor() ? R.mipmap.note_btn_loved : R.mipmap.note_btn_love_white);
-        ImageLoaderManager.newInstance().loadImageForNotification(mContext, R.id.notification_big_album_img,
-                mBigNotificationView, mNotification, NOTIFICATION_ID, mAudioBean.getAlbumPic());
 
         mSmallNotificationView = new RemoteViews(mPackageName, layoutSmallId);
-        mSmallNotificationView.setTextViewText(R.id.notification_small_audio_name, mAudioBean.getName());
-        mSmallNotificationView.setTextViewText(R.id.notification_small_audio_single, mAudioBean.getSinger());
         mSmallNotificationView.setImageViewResource(R.id.notification_small_music_play, R.mipmap.note_btn_play_white);
         mSmallNotificationView.setImageViewResource(R.id.notification_small_music_next, R.mipmap.note_btn_next_white);
-        ImageLoaderManager.newInstance().loadImageForNotification(mContext, R.id.notification_small_album_img,
-                mSmallNotificationView, mNotification, NOTIFICATION_ID, mAudioBean.getAlbumPic());
+
+        updateUIViewByAudiobean(mAudioBean);
     }
 
     /**
@@ -156,6 +149,7 @@ public class NotificationHelper {
 
     /**
      * 创建PendingIntent
+     *
      * @param requestCode
      * @param extraValue
      * @return
@@ -175,5 +169,77 @@ public class NotificationHelper {
 
     private boolean isFavor() {
         return false;
+    }
+
+    /**
+     * 更新为加载状态
+     */
+    public void showLoadStatus(AudioBean bean) {
+        if (null == bean || null == mBigNotificationView || null == mSmallNotificationView) {
+            return;
+        }
+        mAudioBean = bean;
+        mBigNotificationView.setImageViewResource(R.id.notification_big_music_play, R.mipmap.note_btn_pause_white);
+        mSmallNotificationView.setImageViewResource(R.id.notification_small_music_play, R.mipmap.note_btn_pause_white);
+
+        updateUIViewByAudiobean(mAudioBean);
+        //todo 收藏状态的处理
+
+        mNotificationManager.notify(NOTIFICATION_ID, mNotification);
+    }
+
+    /**
+     * 更新为播放状态
+     */
+    public void showPlayStatus() {
+        if (null == mBigNotificationView || null == mSmallNotificationView) {
+            return;
+        }
+        mBigNotificationView.setImageViewResource(R.id.notification_big_music_play, R.mipmap.note_btn_play_white);
+        mSmallNotificationView.setImageViewResource(R.id.notification_small_music_play, R.mipmap.note_btn_play_white);
+        mNotificationManager.notify(NOTIFICATION_ID, mNotification);
+    }
+
+    /**
+     * 更新为暂停状态
+     */
+    public void showPauseStatus() {
+        if (null == mBigNotificationView || null == mSmallNotificationView) {
+            return;
+        }
+        mBigNotificationView.setImageViewResource(R.id.notification_big_music_play, R.mipmap.note_btn_pause_white);
+        mSmallNotificationView.setImageViewResource(R.id.notification_small_music_play, R.mipmap.note_btn_pause_white);
+        mNotificationManager.notify(NOTIFICATION_ID, mNotification);
+    }
+
+    /**
+     * 更新收藏状态
+     */
+    public void showFavorStatus() {
+
+    }
+
+    /**
+     * 更新界面显示，歌曲名称、歌手、专辑icon
+     *
+     * @param audioBean
+     */
+    private void updateUIViewByAudiobean(AudioBean audioBean) {
+        if (null != audioBean) {
+            Context mContext = AudioHelper.getInstance().getContext();
+            mBigNotificationView.setTextViewText(R.id.notification_big_audio_name, audioBean.getName());
+            mBigNotificationView.setTextViewText(R.id.notification_big_audio_single, audioBean.getSinger());
+            ImageLoaderManager.newInstance().loadImageForNotification(mContext, R.id.notification_big_album_img,
+                    mBigNotificationView, mNotification, NOTIFICATION_ID, audioBean.getAlbumPic());
+
+            mSmallNotificationView.setTextViewText(R.id.notification_small_audio_name, audioBean.getName());
+            mSmallNotificationView.setTextViewText(R.id.notification_small_audio_single, audioBean.getSinger());
+            ImageLoaderManager.newInstance().loadImageForNotification(mContext, R.id.notification_small_album_img,
+                    mSmallNotificationView, mNotification, NOTIFICATION_ID, audioBean.getAlbumPic());
+        }
+    }
+
+    public Notification getNotification() {
+        return mNotification;
     }
 }

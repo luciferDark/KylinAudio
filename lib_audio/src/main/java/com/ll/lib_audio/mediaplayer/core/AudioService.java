@@ -4,20 +4,45 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.ll.lib_audio.mediaplayer.app.AudioHelper;
+import com.ll.lib_audio.mediaplayer.bean.AudioBean;
+import com.ll.lib_audio.mediaplayer.exception.AudioContextNullException;
+import com.ll.lib_audio.mediaplayer.view.notification.NotificationHelper;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 
 /**
  * @Auther Kylin
  * @Data 2020/6/17 - 11:13
  * @Package com.ll.lib_audio.mediaplayer.core
- * @Description
+ * @Description 音频播放后台服务类：处理音频播放服务和Notification的交互。
  */
-public class AudioService extends Service {
+public class AudioService extends Service implements NotificationHelper.NotificationHelperListener {
+    private static String DATA_AUDIOS = "data_audios";
+    //actions
+    private static String ACTION_START = "action_start";
+
+    private AudioBroadcastReceiver mAudioBroadcastReceiver = null;
+    private ArrayList<AudioBean> mAudioBeans = null;
+
+    public static void startService(ArrayList<AudioBean> mAudioBean){
+        Context context = AudioHelper.getInstance().getContext();
+        if (null == context){
+            throw new AudioContextNullException();
+        }
+        Intent intent = new Intent(context, AudioService.class);
+        intent.setAction(ACTION_START);
+        intent.putExtra(DATA_AUDIOS, mAudioBean);
+        context.startService(intent);
+    }
 
     @Nullable
     @Override
@@ -28,28 +53,68 @@ public class AudioService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        EventBus.getDefault().register(this);
+        registerBroadcastReceiver();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        mAudioBeans = (ArrayList<AudioBean>) intent.getSerializableExtra(DATA_AUDIOS);
+        if (ACTION_START.equals(intent.getAction())){
+            //开始播放
+            playAudios();
+            NotificationHelper.getInstance().init(this);
+        }
+
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void playAudios() {
+        AudioController.getInstance().setQueue(mAudioBeans);
+        AudioController.getInstance().play();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        unRegisterBroadcastReceiver();
+        //清除前台服务
+        stopForeground(true);
     }
 
     @Override
-    public boolean onUnbind(Intent intent) {
-        return super.onUnbind(intent);
+    public void onNotificationInit() {
+        //将服务注册为前台服务，提交服务的保活能力，和Notification绑定
+        startForeground(NotificationHelper.NOTIFICATION_ID, NotificationHelper.getInstance().getNotification());
     }
 
-    @Override
-    public void onRebind(Intent intent) {
-        super.onRebind(intent);
+    /**
+     * 注册广播接收器
+     */
+    private void registerBroadcastReceiver(){
+        if (null == mAudioBroadcastReceiver){
+            mAudioBroadcastReceiver = new AudioBroadcastReceiver();
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(AudioBroadcastReceiver.ACTION_AUDIO_BROADCAST);
+            registerReceiver(mAudioBroadcastReceiver, intentFilter);
+        }
     }
 
+    /**
+     * 反注册广播接收器
+     */
+    private void unRegisterBroadcastReceiver(){
+        if (null != mAudioBroadcastReceiver){
+            unregisterReceiver(mAudioBroadcastReceiver);
+        }
+    }
+
+    /**
+     *  广播接收器
+     *  1：用于接收发来的音频处理广播：
+     *  上一首、下一首、播放、暂停、收藏
+     */
     public class AudioBroadcastReceiver extends BroadcastReceiver {
         public static final String TAG = "AudioBroadcastReceiver";
 
