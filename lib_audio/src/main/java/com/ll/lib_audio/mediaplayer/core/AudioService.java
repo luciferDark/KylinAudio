@@ -12,10 +12,13 @@ import android.util.Log;
 
 import com.ll.lib_audio.mediaplayer.app.AudioHelper;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
+import com.ll.lib_audio.mediaplayer.event.AudioEvent;
 import com.ll.lib_audio.mediaplayer.exception.AudioContextNullException;
 import com.ll.lib_audio.mediaplayer.view.notification.NotificationHelper;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -90,6 +93,49 @@ public class AudioService extends Service implements NotificationHelper.Notifica
     }
 
     /**
+     *  处理音频播放Eventbus事件
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAudioEvent(AudioEvent event){
+        switch (event.eventCode) {
+            case EVENT_LOAD:
+                onAudioEvent_ShowLoadView(event);
+                break;
+            case EVENT_START:
+                onAudioEvent_ShowStartView(event);
+                break;
+            case EVENT_PASUE:
+                onAudioEvent_ShowPauseView(event);
+                break;
+        }
+    }
+
+    /**
+     * 处理音频播放Eventbus加载事件
+     * @param event
+     */
+    private void onAudioEvent_ShowLoadView(AudioEvent event) {
+        NotificationHelper.getInstance().showLoadStatus(event.audioBean);
+    }
+
+    /**
+     * 处理音频播放Eventbus开始事件
+     * @param event
+     */
+    private void onAudioEvent_ShowStartView(AudioEvent event) {
+        NotificationHelper.getInstance().showPlayStatus();
+    }
+
+    /**
+     * 处理音频播放Eventbus暂停事件
+     * @param event
+     */
+    private void onAudioEvent_ShowPauseView(AudioEvent event) {
+        NotificationHelper.getInstance().showPauseStatus();
+    }
+
+    /**
      * 注册广播接收器
      */
     private void registerBroadcastReceiver(){
@@ -119,7 +165,6 @@ public class AudioService extends Service implements NotificationHelper.Notifica
         public static final String TAG = "AudioBroadcastReceiver";
 
         public static final String ACTION_AUDIO_BROADCAST =
-//                AudioHelper.getInstance().getContext().getPackageName() +
                         "com.ll.lib_audio.mediaplayer.core.AUDIO_BROADCAST_RECEIVER";
         public static final String EXTRA = "extra";
 
@@ -146,7 +191,7 @@ public class AudioService extends Service implements NotificationHelper.Notifica
                 case EXTRA_PLAY_PAUSE:
                     AudioController.getInstance().switchPlayOrPause();
                     break;
-                case EXTRA_FAVOR:
+                case EXTRA_FAVOR: //todo 处理收藏广播事件
                     break;
                 case EXTRA_PREV:
                     AudioController.getInstance().preview();
