@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'maven'
 
 android {
@@ -39,6 +40,7 @@ dependencies {
     androidTestImplementation rootProject.depsLibs.espresso_core
 
     implementation rootProject.depsLibs.eventbus
+    implementation rootProject.depsLibs.greendao
 
     implementation project(path: ':lib_image_loader')
 }

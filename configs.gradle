@@ -24,6 +24,7 @@ ext {
             rxandroid: '2.1.1',
             eventbus: '3.1.1',
             annotations: '23.1.1',
+            greendao: '3.2.2',
     ]
 
     depsLibs = [
@@ -40,6 +41,7 @@ ext {
             rxandroid: "io.reactivex.rxjava2:rxandroid:${depsVersion.rxandroid}",
             eventbus: "org.greenrobot:eventbus:${depsVersion.eventbus}",
             annotations: "com.android.support:support-annotations:${depsVersion.annotations}",
+            greendao: "org.greenrobot:greendao:${depsVersion.greendao}",
     ]
 
     mavenConfig = [
