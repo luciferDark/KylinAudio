@@ -28,7 +28,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
@@ -43,6 +42,17 @@ dependencies {
     implementation rootProject.depsLibs.greendao
 
     implementation project(path: ':lib_image_loader')
+}
+
+greendao {
+    //数据库版本号
+    schemaVersion 1
+    //设置DaoMaster、DaoSession、Dao包名
+    daoPackage 'com.ll.lib_audio.mediaplayer.greendao.gen'
+    //设置DaoMaster、DaoSession、Dao目录
+    targetGenDir 'src/main/java'
+    //设置自动生成单元测试用例
+    generateTests  false
 }
 
 def pomName = this.getName()
