@@ -15,15 +15,18 @@ public class AudioHelper {
     //------------------单例----------------------//
     private static AudioHelper mInstance = null;
 
-    private AudioHelper(Context context) {
-        mWeakContext = new WeakReference<>(context);
+    private AudioHelper() {
     }
 
-    public static AudioHelper getInstance(Context context) {
+    public static void init(Context context) {
+        getInstance().setContext(context);
+    }
+
+    public static AudioHelper getInstance() {
         if (null == mInstance) {
             synchronized (AudioHelper.class) {
                 if (null == mInstance) {
-                    mInstance = new AudioHelper(context);
+                    mInstance = new AudioHelper();
                 }
             }
         }
@@ -31,10 +34,16 @@ public class AudioHelper {
     }
     //------------------单例----------------------//
 
-    public Context getContext(){
-        if (null == mWeakContext){
+    public Context getContext() {
+        if (null == mWeakContext) {
             return null;
         }
         return mWeakContext.get();
+    }
+
+    private void setContext(Context context) {
+        if (null != context) {
+            mWeakContext = new WeakReference<>(context);
+        }
     }
 }

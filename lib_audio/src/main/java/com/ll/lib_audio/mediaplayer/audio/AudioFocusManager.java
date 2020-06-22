@@ -25,8 +25,7 @@ public class AudioFocusManager implements AudioManager.OnAudioFocusChangeListene
             return false;
         }
 
-        return this.mAudioManager.requestAudioFocus(
-                this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+        return this.mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
                 == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
     }
 
@@ -40,22 +39,22 @@ public class AudioFocusManager implements AudioManager.OnAudioFocusChangeListene
     @Override
     public void onAudioFocusChange(final int focusChange) {
         switch (focusChange){
-            case AudioManager.AUDIOFOCUS_GAIN:
+            case AudioManager.AUDIOFOCUS_GAIN: //焦点获取
                 if (null != this.mAudioFocusListener){
                     this.mAudioFocusListener.audioFocusGrant();
                 }
                 break;
-            case AudioManager.AUDIOFOCUS_LOSS:
+            case AudioManager.AUDIOFOCUS_LOSS: //焦点失去
                 if (null != this.mAudioFocusListener){
                     this.mAudioFocusListener.audioFocusLoss();
                 }
                 break;
-            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT: //焦点短暂失去，例如电话
                 if (null != this.mAudioFocusListener){
                     this.mAudioFocusListener.audioFocusLossTransient();
                 }
                 break;
-            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK: //焦点瞬时失去，例如短信音，通知音
                 if (null != this.mAudioFocusListener){
                     this.mAudioFocusListener.audioFocusLossCanDuck();
                 }
@@ -69,7 +68,7 @@ public class AudioFocusManager implements AudioManager.OnAudioFocusChangeListene
     public interface AudioFocusListener {
         void audioFocusGrant();//焦点获取
 
-        void audioFocusLoss();//焦点失去
+        void audioFocusLoss();//焦点永久失去
 
         void audioFocusLossTransient();//焦点短暂失去，例如电话
 

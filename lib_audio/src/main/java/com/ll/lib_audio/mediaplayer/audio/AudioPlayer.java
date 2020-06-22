@@ -1,5 +1,6 @@
 package com.ll.lib_audio.mediaplayer.audio;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
@@ -7,9 +8,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
+import android.util.Log;
 
+import com.ll.lib_audio.mediaplayer.app.AudioHelper;
+import com.ll.lib_audio.mediaplayer.bean.AudioBean;
 import com.ll.lib_audio.mediaplayer.core.CommonMediaPlayer;
-
 
 /**
  * @Auther Kylin
@@ -18,22 +21,27 @@ import com.ll.lib_audio.mediaplayer.core.CommonMediaPlayer;
  * @Description 音频播放控制器：对外发送各种播放事件类型
  */
 public class AudioPlayer implements
+        MediaPlayer.OnPreparedListener,
         MediaPlayer.OnCompletionListener,
-        MediaPlayer.OnBufferingUpdateListener,
         MediaPlayer.OnErrorListener,
+        MediaPlayer.OnBufferingUpdateListener,
         AudioFocusManager.AudioFocusListener {
 
     private static final int TIME_MSG = 0x01;
     private static final int TIME_INVAL = 100;
+    private static final String TAG = "AudioPlayer";
 
     private CommonMediaPlayer mCommonMediaPlayer;
-    private WifiManager.WifiLock mWifiLock;//处理后台保活
     private AudioFocusManager mAudioFocusManager;//音频焦点监听器
+    private WifiManager.WifiLock mWifiLock;//处理后台保活
 
-    private Handler mHandler = new Handler(Looper.getMainLooper()){
+    //标志位用于判断当前状态是否是因为焦点竞争失败丢失
+    private boolean isPauseByFouceLossTransient = false;
+
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case TIME_MSG:
                     break;
             }
@@ -48,11 +56,128 @@ public class AudioPlayer implements
         mCommonMediaPlayer = new CommonMediaPlayer();
         mCommonMediaPlayer.setWakeMode(null, PowerManager.PARTIAL_WAKE_LOCK);//低电量版本播放模式
         mCommonMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        // 注册监听器
+        mCommonMediaPlayer.setOnPreparedListener(this);
         mCommonMediaPlayer.setOnBufferingUpdateListener(this);
         mCommonMediaPlayer.setOnCompletionListener(this);
         mCommonMediaPlayer.setOnErrorListener(this);
 
+        Context mContext = AudioHelper.getInstance().getContext();
+        if (null != mContext) {
+            mWifiLock = ((WifiManager) mContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE))
+                    .createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
+            mAudioFocusManager = new AudioFocusManager(mContext, this);
+        }
+    }
 
+    /**
+     * 加载音频，加载完成后会自动回调 @startAudio
+     *
+     * @param audioBean
+     */
+    public void loadAudio(AudioBean audioBean) {
+        try {
+            mCommonMediaPlayer.reset();
+            mCommonMediaPlayer.setDataSource(audioBean.getUrl());
+            mCommonMediaPlayer.prepareAsync();
+            // todo 待处理UIEvent -- 加载完成
+        } catch (Exception e) {
+            e.printStackTrace();
+            // todo 待处理UIEvent -- 加载异常
+        }
+    }
+
+    private void startAudio() {
+        //先获取焦点
+        if (!mAudioFocusManager.requestAudioFocus()) {
+            //未获取到焦点
+            Log.e(TAG, "startAudio: request audio focus failed");
+            return;
+        }
+        mCommonMediaPlayer.start();
+
+        mWifiLock.acquire();//启用wifi锁
+        mHandler.sendEmptyMessage(TIME_MSG);//更新进度
+        // todo 待处理UIEvent -- 播放开始
+    }
+
+    /**
+     * 音频暂停播放
+     */
+    public void pause() {
+        if (CommonMediaPlayer.Status.STARTED == getStatus()) {
+            mCommonMediaPlayer.pause();
+            // 释放wifi lock锁
+            if (mWifiLock.isHeld()) {
+                mWifiLock.release();
+            }
+            // 释放音频焦点
+            if (mAudioFocusManager != null) {
+                mAudioFocusManager.abandonAudioFocus();
+            }
+            // todo 待处理UIEvent -- 播放暂停
+        }
+    }
+
+    /**
+     * 音频恢复播放
+     */
+    public void resume() {
+        if (CommonMediaPlayer.Status.PAUSED == getStatus()) {
+            mCommonMediaPlayer.start();
+            // todo 待处理UIEvent -- 播放恢复
+        }
+    }
+
+    /**
+     * 清空播放器资源
+     */
+    public void release() {
+        if (null != mCommonMediaPlayer) {
+            mCommonMediaPlayer.release();
+            mCommonMediaPlayer = null;
+        }
+
+        if (null != mWifiLock) {
+            mWifiLock.release();
+            mWifiLock = null;
+        }
+
+        if (null != mAudioFocusManager) {
+            mAudioFocusManager.abandonAudioFocus();
+            mAudioFocusManager = null;
+        }
+        // todo 待处理UIEvent -- 资源销毁
+    }
+
+    /**
+     * 获取音频当前播放状态
+     *
+     * @return
+     */
+    public CommonMediaPlayer.Status getStatus() {
+        if (null != mCommonMediaPlayer) {
+            return mCommonMediaPlayer.getStaus();
+        }
+
+        return CommonMediaPlayer.Status.STOPED;
+    }
+
+    /**
+     * 设置音量
+     *
+     * @param left  左声道
+     * @param right 右声道
+     */
+    public void setVolume(float left, float right) {
+        if (null != mCommonMediaPlayer) {
+            mCommonMediaPlayer.setVolume(left, right);
+        }
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        startAudio();
     }
 
     @Override
@@ -72,21 +197,32 @@ public class AudioPlayer implements
 
     @Override
     public void audioFocusGrant() {
-
+        //焦点获取
+        setVolume(1.0f, 1.0f);//恢复音量
+        if (isPauseByFouceLossTransient) {
+            //由于焦点竞争失败，需要重新播放
+            resume();
+            isPauseByFouceLossTransient = false;
+        }
     }
 
     @Override
     public void audioFocusLoss() {
-
+        //焦点永久失去
+        pause();
     }
 
     @Override
     public void audioFocusLossTransient() {
-
+        //焦点短暂失去，例如电话
+        setVolume(0.0f, 0.0f);
+        pause();
+        isPauseByFouceLossTransient = true;
     }
 
     @Override
     public void audioFocusLossCanDuck() {
-
+        //焦点瞬时失去，例如短信音，通知音
+        setVolume(0.3f, 0.3f);
     }
 }
