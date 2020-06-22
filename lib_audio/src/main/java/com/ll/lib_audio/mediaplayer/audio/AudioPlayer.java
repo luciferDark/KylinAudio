@@ -13,6 +13,9 @@ import android.util.Log;
 import com.ll.lib_audio.mediaplayer.app.AudioHelper;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
 import com.ll.lib_audio.mediaplayer.core.CommonMediaPlayer;
+import com.ll.lib_audio.mediaplayer.event.AudioEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * @Auther Kylin
@@ -80,10 +83,12 @@ public class AudioPlayer implements
             mCommonMediaPlayer.reset();
             mCommonMediaPlayer.setDataSource(audioBean.getUrl());
             mCommonMediaPlayer.prepareAsync();
-            // todo 待处理UIEvent -- 加载完成
+            // UIEvent -- 加载完成
+            EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_LOAD, "audio load", audioBean));
         } catch (Exception e) {
             e.printStackTrace();
-            // todo 待处理UIEvent -- 加载异常
+            // UIEvent -- 加载异常
+            EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_ERROR, "audio error :" + e.getMessage(), audioBean));
         }
     }
 
@@ -98,7 +103,8 @@ public class AudioPlayer implements
 
         mWifiLock.acquire();//启用wifi锁
         mHandler.sendEmptyMessage(TIME_MSG);//更新进度
-        // todo 待处理UIEvent -- 播放开始
+        // UIEvent -- 播放开始
+        EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_START, "audio start"));
     }
 
     /**
@@ -115,7 +121,8 @@ public class AudioPlayer implements
             if (mAudioFocusManager != null) {
                 mAudioFocusManager.abandonAudioFocus();
             }
-            // todo 待处理UIEvent -- 播放暂停
+            // UIEvent -- 播放暂停
+            EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_PASUE, "audio pause"));
         }
     }
 
@@ -125,7 +132,8 @@ public class AudioPlayer implements
     public void resume() {
         if (CommonMediaPlayer.Status.PAUSED == getStatus()) {
             mCommonMediaPlayer.start();
-            // todo 待处理UIEvent -- 播放恢复
+            // UIEvent -- 播放恢复
+            EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_RESUME, "audio resume"));
         }
     }
 
@@ -147,7 +155,8 @@ public class AudioPlayer implements
             mAudioFocusManager.abandonAudioFocus();
             mAudioFocusManager = null;
         }
-        // todo 待处理UIEvent -- 资源销毁
+        // UIEvent -- 资源销毁
+        EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_RELEASE, "audio release"));
     }
 
     /**
