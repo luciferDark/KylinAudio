@@ -88,7 +88,7 @@ public class AudioPlayer implements
         } catch (Exception e) {
             e.printStackTrace();
             // UIEvent -- 加载异常
-            EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_ERROR, "audio error :" + e.getMessage(), audioBean));
+            EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_LOAD_ERROR, "audio error :" + e.getMessage(), audioBean));
         }
     }
 
@@ -196,12 +196,13 @@ public class AudioPlayer implements
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-
+        EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_COMPLETION, "audio onCompletion"));
     }
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        return false;
+        EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_ERROR, "audio error :"));
+        return true;
     }
 
     @Override

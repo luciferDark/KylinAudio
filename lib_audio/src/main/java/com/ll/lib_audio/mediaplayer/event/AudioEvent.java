@@ -30,7 +30,9 @@ public class AudioEvent {
         EVENT_PASUE,
         EVENT_RESUME,
         EVENT_STOP,
+        EVENT_COMPLETION,
         EVENT_RELEASE,
         EVENT_ERROR,
+        EVENT_LOAD_ERROR,
     }
 }
