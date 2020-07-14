@@ -1,6 +1,9 @@
 package com.ll.lib_audio.mediaplayer.bean;
 
-import android.support.annotation.NonNull;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * @Auther Kylin
@@ -8,19 +11,31 @@ import android.support.annotation.NonNull;
  * @Package com.ll.lib_audio.mediaplayer.bean
  * @Description 歌曲实体类
  */
+@Entity
 public class AudioBean {
+    @Id
     private String id;
+    @NotNull
     private String name;
+    @NotNull
     private String url;
+    @NotNull
     private String singer;
     private String singerInfo;
+    @NotNull
     private String album;
+    @NotNull
     private String albumInfo;
+    @NotNull
     private String albumPic;
+    @NotNull
     private String totalTime;
 
-    public AudioBean(String id, @NonNull String name, @NonNull String url, @NonNull String singer, String singerInfo
-            , @NonNull String album, @NonNull String albumInfo, @NonNull String albumPic, @NonNull String totalTime) {
+    @Generated(hash = 1858738008)
+    public AudioBean(String id, @NotNull String name, @NotNull String url,
+            @NotNull String singer, String singerInfo, @NotNull String album,
+            @NotNull String albumInfo, @NotNull String albumPic,
+            @NotNull String totalTime) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -31,76 +46,62 @@ public class AudioBean {
         this.albumPic = albumPic;
         this.totalTime = totalTime;
     }
-
-    public String getId() {
-        return id;
+    @Generated(hash = 1628963493)
+    public AudioBean() {
     }
-
+    public String getId() {
+        return this.id;
+    }
     public void setId(String id) {
         this.id = id;
     }
-
     public String getName() {
-        return name;
+        return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getUrl() {
-        return url;
+        return this.url;
     }
-
     public void setUrl(String url) {
         this.url = url;
     }
-
     public String getSinger() {
-        return singer;
+        return this.singer;
     }
-
     public void setSinger(String singer) {
         this.singer = singer;
     }
-
     public String getSingerInfo() {
-        return singerInfo;
+        return this.singerInfo;
     }
-
     public void setSingerInfo(String singerInfo) {
         this.singerInfo = singerInfo;
     }
-
     public String getAlbum() {
-        return album;
+        return this.album;
     }
-
     public void setAlbum(String album) {
         this.album = album;
     }
-
     public String getAlbumInfo() {
-        return albumInfo;
+        return this.albumInfo;
     }
-
     public void setAlbumInfo(String albumInfo) {
         this.albumInfo = albumInfo;
     }
-
     public String getAlbumPic() {
-        return albumPic;
+        return this.albumPic;
     }
-
     public void setAlbumPic(String albumPic) {
         this.albumPic = albumPic;
     }
-
     public String getTotalTime() {
-        return totalTime;
+        return this.totalTime;
     }
-
     public void setTotalTime(String totalTime) {
         this.totalTime = totalTime;
     }
+
 }
