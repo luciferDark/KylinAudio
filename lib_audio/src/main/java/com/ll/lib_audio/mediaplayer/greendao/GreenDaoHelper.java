@@ -105,7 +105,6 @@ public class GreenDaoHelper {
         mFavouriteDao.delete(favourite);
     }
 
-
     /**
      *  查询歌曲收藏
      *

@@ -2,7 +2,11 @@ package com.ll.lib_audio.mediaplayer.app;
 
 import android.content.Context;
 
+import com.ll.lib_audio.mediaplayer.bean.AudioBean;
+import com.ll.lib_audio.mediaplayer.core.AudioService;
+
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 /**
  * @Auther Kylin
@@ -45,5 +49,9 @@ public class AudioHelper {
         if (null != context) {
             mWeakContext = new WeakReference<>(context);
         }
+    }
+
+    public void startMusicService(ArrayList<AudioBean> audios){
+        AudioService.startService(audios);
     }
 }

@@ -3,6 +3,7 @@ package com.ll.lib_audio.mediaplayer.core;
 import com.ll.lib_audio.mediaplayer.event.AudioEvent;
 import com.ll.lib_audio.mediaplayer.exception.AudioQueueEmptyException;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
+import com.ll.lib_audio.mediaplayer.greendao.GreenDaoHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -76,7 +77,7 @@ public class AudioController {
      */
     public void setQueue(ArrayList<AudioBean> queue) {
         this.mQueue = queue;
-        // this.mCurrrentIndex = 0;
+         this.mCurrrentIndex = 0;
     }
 
     /**
@@ -237,6 +238,25 @@ public class AudioController {
     }
 
     /**
+     *  修改歌曲收藏状态
+     */
+    public void changeFavouriteStatus(){
+        if (null != GreenDaoHelper.getInstance().queryFavouriteAudioBean(getCurrentAudioBean())){
+            //当前歌曲已经收藏
+            GreenDaoHelper.getInstance().removeFavouriteAudioBean(getCurrentAudioBean());
+            EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_FAVOURITE,
+                    "remove audio bean from db" + getCurrentAudioBean().getId(),
+                    getCurrentAudioBean()));
+        } else {
+            //当前歌曲未收藏
+            GreenDaoHelper.getInstance().addFavouriteAudioBean(getCurrentAudioBean());
+            EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_FAVOURITE,
+                    "add audio bean into db" + getCurrentAudioBean().getId(),
+                    getCurrentAudioBean()));
+        }
+    }
+
+    /**
      * 播放
      */
     public void play() {
@@ -311,7 +331,7 @@ public class AudioController {
      *
      * @return
      */
-    private AudioBean getCurrentAudioBean() {
+    public AudioBean getCurrentAudioBean() {
         return getPlaying();
     }
 

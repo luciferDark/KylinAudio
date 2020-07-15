@@ -33,6 +33,16 @@ public class AudioEvent {
         EVENT_COMPLETION,
         EVENT_RELEASE,
         EVENT_ERROR,
+        EVENT_FAVOURITE,
         EVENT_LOAD_ERROR,
+    }
+
+    @Override
+    public String toString() {
+        return "AudioEvent{" +
+                "eventCode=" + eventCode +
+                ", eventMsg='" + eventMsg + '\'' +
+                ", audioBean=" + audioBean +
+                '}';
     }
 }

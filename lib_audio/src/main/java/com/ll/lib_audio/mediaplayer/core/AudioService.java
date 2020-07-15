@@ -29,6 +29,7 @@ import java.util.ArrayList;
  * @Description 音频播放后台服务类：处理音频播放服务和Notification的交互。
  */
 public class AudioService extends Service implements NotificationHelper.NotificationHelperListener {
+    private static final String TAG = "AudioService";
     private static String DATA_AUDIOS = "data_audios";
     //actions
     private static String ACTION_START = "action_start";
@@ -98,6 +99,7 @@ public class AudioService extends Service implements NotificationHelper.Notifica
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAudioEvent(AudioEvent event){
+        Log.w(TAG, "onAudioEvent: " +  event.toString());
         switch (event.eventCode) {
             case EVENT_LOAD:
                 onAudioEvent_ShowLoadView(event);
@@ -105,8 +107,14 @@ public class AudioService extends Service implements NotificationHelper.Notifica
             case EVENT_START:
                 onAudioEvent_ShowStartView(event);
                 break;
+            case EVENT_RESUME:
+                onAudioEvent_ShowStartView(event);
+                break;
             case EVENT_PASUE:
                 onAudioEvent_ShowPauseView(event);
+                break;
+            case EVENT_FAVOURITE:
+                onAudioEvent_ShowFavouriteView(event);
                 break;
         }
     }
@@ -136,6 +144,14 @@ public class AudioService extends Service implements NotificationHelper.Notifica
     }
 
     /**
+     * 处理音频播放Eventbus收藏事件
+     * @param event
+     */
+    private void onAudioEvent_ShowFavouriteView(AudioEvent event) {
+        NotificationHelper.getInstance().changeFavorStatus(event.audioBean);
+    }
+
+    /**
      * 注册广播接收器
      */
     private void registerBroadcastReceiver(){
@@ -158,7 +174,7 @@ public class AudioService extends Service implements NotificationHelper.Notifica
 
     /**
      *  广播接收器
-     *  1：用于接收发来的音频处理广播：
+     *  1：用于接收Notification上相关按钮发来的音频处理广播：
      *  上一首、下一首、播放、暂停、收藏
      */
     public class AudioBroadcastReceiver extends BroadcastReceiver {
@@ -191,7 +207,8 @@ public class AudioService extends Service implements NotificationHelper.Notifica
                 case EXTRA_PLAY_PAUSE:
                     AudioController.getInstance().switchPlayOrPause();
                     break;
-                case EXTRA_FAVOR: //todo 处理收藏广播事件
+                case EXTRA_FAVOR:
+                    AudioController.getInstance().changeFavouriteStatus();
                     break;
                 case EXTRA_PREV:
                     AudioController.getInstance().preview();

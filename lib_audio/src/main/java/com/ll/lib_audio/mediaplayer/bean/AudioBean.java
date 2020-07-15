@@ -5,6 +5,8 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * @Auther Kylin
  * @Data 2020/5/21 - 14:33
@@ -12,7 +14,9 @@ import org.greenrobot.greendao.annotation.Generated;
  * @Description 歌曲实体类
  */
 @Entity
-public class AudioBean {
+public class AudioBean implements Serializable {
+    private static final long serialVersionUID = -8849228294348905620L;
+
     @Id
     private String id;
     @NotNull
@@ -104,4 +108,18 @@ public class AudioBean {
         this.totalTime = totalTime;
     }
 
+    @Override
+    public String toString() {
+        return "AudioBean{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", singer='" + singer + '\'' +
+                ", singerInfo='" + singerInfo + '\'' +
+                ", album='" + album + '\'' +
+                ", albumInfo='" + albumInfo + '\'' +
+                ", albumPic='" + albumPic + '\'' +
+                ", totalTime='" + totalTime + '\'' +
+                '}';
+    }
 }

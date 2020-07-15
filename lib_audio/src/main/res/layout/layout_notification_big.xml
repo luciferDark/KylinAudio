@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/notification_big_album_img"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
+        android:layout_width="112dp"
+        android:layout_height="112dp"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
