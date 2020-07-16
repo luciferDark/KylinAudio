@@ -41,6 +41,7 @@ dependencies {
     implementation rootProject.depsLibs.greendao
 
     implementation project(path: ':lib_image_loader')
+    implementation project(path: ':lib_common_ui')
 }
 
 greendao {
