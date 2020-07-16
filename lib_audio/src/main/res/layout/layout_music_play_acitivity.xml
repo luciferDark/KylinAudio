@@ -3,6 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/layout_music_play_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_lightgray"
+        android:contentDescription="@string/app_name" />
     <!--  顶部布局-标题、返回、分享等功能  -->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -70,9 +77,10 @@
         <!--功能区：评论、下载、详情-->
         <LinearLayout
             android:id="@+id/layout_music_play_bottom_operation_area"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -106,7 +114,7 @@
                     android:layout_height="50dp"
                     android:contentDescription="@string/app_name"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/audio_aef" />
+                    android:src="@mipmap/audio_b3f" />
 
             </LinearLayout>
 
@@ -124,7 +132,7 @@
                     android:layout_height="50dp"
                     android:contentDescription="@string/app_name"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/audio_aef" />
+                    android:src="@mipmap/audio_middle" />
 
             </LinearLayout>
 
@@ -142,7 +150,7 @@
                     android:layout_height="50dp"
                     android:contentDescription="@string/app_name"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/audio_aef" />
+                    android:src="@mipmap/audio_b3b" />
 
             </LinearLayout>
 
@@ -164,11 +172,109 @@
             </LinearLayout>
         </LinearLayout>
         <!--  播放显示进度区域  -->
+        <LinearLayout
+            android:id="@+id/layout_music_play_bottom_control_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_music_play_bottom_progress_area"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/layout_music_play_bottom_btn_play_mode"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/player_loop" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/layout_music_play_bottom_btn_pre"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/audio_ajb" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/layout_music_play_bottom_btn_play_or_pause"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/audio_aj7" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/layout_music_play_bottom_btn_next"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/audio_aja" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/layout_music_play_bottom_btn_music_list"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/audio_aj8" />
+            </LinearLayout>
+        </LinearLayout>
+        <!-- 控制区：播放、暂停、上下首 -->
         <RelativeLayout
             android:id="@+id/layout_music_play_bottom_progress_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_music_play_bottom_operation_area"
+            android:gravity="center"
             android:padding="8dp">
 
             <SeekBar
@@ -179,8 +285,8 @@
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/layout_music_play_bottom_txt_end_time"
                 android:layout_toEndOf="@+id/layout_music_play_bottom_txt_current_time"
-                android:progressDrawable="@drawable/music_play_layout_seekbar_progress_back"
                 android:maxHeight="2dp"
+                android:progressDrawable="@drawable/music_play_layout_seekbar_progress_back"
                 android:thumb="@drawable/music_play_layout_seekbar_thumb" />
 
             <TextView
@@ -203,6 +309,5 @@
                 android:textColor="@color/color_gray"
                 android:textSize="10sp" />
         </RelativeLayout>
-
     </RelativeLayout>
 </RelativeLayout>
