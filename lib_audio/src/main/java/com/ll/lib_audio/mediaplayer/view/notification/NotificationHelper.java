@@ -104,12 +104,9 @@ public class NotificationHelper {
             NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(AudioHelper.getInstance().getContext(), CHANNER_ID)
                             .setContentIntent(pendingIntent)
-                            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                             .setSmallIcon(R.mipmap.ic_launcher)
-//                            .setCustomBigContentView(mBigNotificationView)
                             .setContent(mSmallNotificationView)
-                            .setCustomHeadsUpContentView(mSmallNotificationView)
-                           ;
+                            .setCustomBigContentView(mBigNotificationView);
             mNotification = builder.build();
             updateUIViewByAudiobean(mAudioBean, false);
         }

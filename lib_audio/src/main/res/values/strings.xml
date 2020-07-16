@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">lib_audio</string>
+    <string name="notification_btn_favor_name">词</string>
 </resources>

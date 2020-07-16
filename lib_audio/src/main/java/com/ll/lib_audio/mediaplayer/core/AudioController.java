@@ -344,7 +344,7 @@ public class AudioController {
     private AudioBean getPreviewAudioBean() {
         switch (mPlayMode) {
             case LOOP:
-                mCurrrentIndex = (mCurrrentIndex - 1) % mQueue.size();
+                mCurrrentIndex = (mCurrrentIndex + mQueue.size() - 1) % mQueue.size();
                 break;
             case RANDOM:
                 mCurrrentIndex = new Random().nextInt(mQueue.size()) % mQueue.size();

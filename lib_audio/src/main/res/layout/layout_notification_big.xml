@@ -7,9 +7,6 @@
         android:id="@+id/notification_big_album_img"
         android:layout_width="112dp"
         android:layout_height="112dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
         android:contentDescription="@string/app_name"
         android:scaleType="fitXY" />
 
@@ -39,7 +36,7 @@
             android:text="@string/app_name"
             android:textSize="16sp" />
 
-        <View
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginStart="10dp"
@@ -64,6 +61,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:contentDescription="@string/app_name"
             android:src="@mipmap/note_btn_love_white" />
 
         <LinearLayout
@@ -80,26 +78,23 @@
                 android:id="@+id/notification_big_music_prev"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
+                android:contentDescription="@string/app_name"
                 android:src="@mipmap/note_btn_pre_white" />
 
             <ImageView
                 android:id="@+id/notification_big_music_play"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name"
                 android:src="@mipmap/note_btn_play_white" />
 
             <ImageView
                 android:id="@+id/notification_big_music_next"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
+                android:contentDescription="@string/app_name"
                 android:src="@mipmap/note_btn_next_white" />
         </LinearLayout>
 
@@ -111,7 +106,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:text="词"
+            android:text="@string/notification_btn_favor_name"
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
