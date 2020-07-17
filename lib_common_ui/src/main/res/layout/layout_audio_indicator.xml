@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true">
+
+    <TextView
+        android:id="@+id/layout_audio_indicator_horizontal_center"
+        android:layout_width="1dip"
+        android:layout_height="1dip"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/layout_audio_indicator_stylus"
+        android:layout_width="120dip"
+        android:layout_height="180dip"
+        android:layout_marginStart="-16dip"
+        android:layout_toEndOf="@+id/layout_audio_indicator_horizontal_center"
+        android:src="@mipmap/audio_indicator_stylus" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/layout_audio_indicator_viewpager"
+        android:layout_width="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_height="360dp"/>
+</RelativeLayout>
