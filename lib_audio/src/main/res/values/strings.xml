@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">lib_audio</string>
     <string name="notification_btn_favor_name">词</string>
+    <string name="marquee_forever_txt">我是跑马灯的少年文字，我是跑马灯的少年文字，我是跑马灯的少年文字，我是跑马灯的少年文字，我是跑马灯的少年文字，我是跑马灯的少年文字。</string>
+    <string name="audio_music_play_mode_loop" type="id">循环播放</string>
+    <string name="audio_music_play_mode_random">随机播放</string>
+    <string name="audio_music_play_mode_once">单曲循环</string>
 </resources>

@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_music_play_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/layout_music_play_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/color_lightgray"
-        android:contentDescription="@string/app_name" />
     <!--  顶部布局-标题、返回、分享等功能  -->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -47,12 +42,24 @@
             android:layout_toEndOf="@+id/layout_music_play_top_btn_back"
             android:orientation="vertical">
 
+            <!--    android:ellipsize=”start”—–省略号显示在开头 "...edfg"
+                        android:ellipsize=”end”——省略号显示在结尾 "abcdec..."
+                        android:ellipsize=”middle”—-省略号显示在中间 "ab...fg"
+                        android:ellipsize=”marquee”–以横向滚动方式显示(需获得当前焦点时)-->
+            <!--    跑马灯效果，记得需要获取到焦点
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
+                        android:marqueeRepeatLimit="marquee_forever"-->
             <!--歌曲名字标签-->
             <TextView
                 android:id="@+id/layout_music_play_top_txt_song_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusableInTouchMode="true"
+                android:singleLine="true"
+                android:text="@string/marquee_forever_txt"
                 android:textColor="@color/color_white"
                 android:textSize="18dp"
                 android:textStyle="bold" />

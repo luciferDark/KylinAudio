@@ -1,6 +1,7 @@
 package com.ll.lib_audio.mediaplayer.event;
 
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
+import com.ll.lib_audio.mediaplayer.core.AudioController;
 
 /**
  * @Auther Kylin
@@ -12,6 +13,7 @@ public class AudioEvent {
     public Status eventCode;
     public String eventMsg;
     public AudioBean audioBean;
+    public AudioController.PlayMode playMode;
 
     public AudioEvent(Status eventCode, String eventMsg) {
         this.eventCode = eventCode;
@@ -24,6 +26,13 @@ public class AudioEvent {
         this.audioBean = audioBean;
     }
 
+    public AudioEvent(Status eventCode, String eventMsg, AudioBean audioBean, AudioController.PlayMode playMode) {
+        this.eventCode = eventCode;
+        this.eventMsg = eventMsg;
+        this.audioBean = audioBean;
+        this.playMode = playMode;
+    }
+
     public enum Status{
         EVENT_LOAD,
         EVENT_START,
@@ -33,8 +42,10 @@ public class AudioEvent {
         EVENT_COMPLETION,
         EVENT_RELEASE,
         EVENT_ERROR,
-        EVENT_FAVOURITE,
+        EVENT_ADD_FAVOURITE,
+        EVENT_REMOVE_FAVOURITE,
         EVENT_LOAD_ERROR,
+        EVENT_PLAY_MODE,
     }
 
     @Override
@@ -43,6 +54,7 @@ public class AudioEvent {
                 "eventCode=" + eventCode +
                 ", eventMsg='" + eventMsg + '\'' +
                 ", audioBean=" + audioBean +
+                ", playMode=" + playMode +
                 '}';
     }
 }

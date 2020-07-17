@@ -33,13 +33,15 @@ public class AudioBean implements Serializable {
     @NotNull
     private String albumPic;
     @NotNull
+    private String playBackground;
+    @NotNull
     private String totalTime;
 
-    @Generated(hash = 1858738008)
+    @Generated(hash = 464387491)
     public AudioBean(String id, @NotNull String name, @NotNull String url,
             @NotNull String singer, String singerInfo, @NotNull String album,
             @NotNull String albumInfo, @NotNull String albumPic,
-            @NotNull String totalTime) {
+            @NotNull String playBackground, @NotNull String totalTime) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -48,6 +50,7 @@ public class AudioBean implements Serializable {
         this.album = album;
         this.albumInfo = albumInfo;
         this.albumPic = albumPic;
+        this.playBackground = playBackground;
         this.totalTime = totalTime;
     }
     @Generated(hash = 1628963493)
@@ -119,7 +122,14 @@ public class AudioBean implements Serializable {
                 ", album='" + album + '\'' +
                 ", albumInfo='" + albumInfo + '\'' +
                 ", albumPic='" + albumPic + '\'' +
+                ", playBackground='" + playBackground + '\'' +
                 ", totalTime='" + totalTime + '\'' +
                 '}';
+    }
+    public String getPlayBackground() {
+        return this.playBackground;
+    }
+    public void setPlayBackground(String playBackground) {
+        this.playBackground = playBackground;
     }
 }

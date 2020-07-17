@@ -167,24 +167,29 @@ public class HomeActivity extends BaseFragmentActivity implements View.OnClickLi
      * 初始化Datas
      */
     private void initData() {
-        mLists.add(new AudioBean("100001", "七里香", "http://sp-sycdn.kuwo.cn/resource/n2/85/58/433900159.mp3", "周杰伦", "周杰伦信息",
-                "以你的名字喊我", "电影《不能说的秘密》主题曲,尤其以最美的不是下雨天,是与你一起躲过雨的屋檐最为经典",
-                "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559698076304&di=e6e99aa943b72ef57b97f0be3e0d2446&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201401%2F04%2F20140104170315_XdG38.jpeg",
-                "4:30"));
+        mLists.add(
+                new AudioBean("100001", "七里香", "http://sp-sycdn.kuwo.cn/resource/n2/85/58/433900159.mp3", "周杰伦", "周杰伦信息",
+                        "以你的名字喊我", "电影《不能说的秘密》主题曲,尤其以最美的不是下雨天,是与你一起躲过雨的屋檐最为经典",
+                        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559698076304&di=e6e99aa943b72ef57b97f0be3e0d2446&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201401%2F04%2F20140104170315_XdG38.jpeg",
+                        "https://static.fotor.com.cn/assets/projects/pages/e792abc0-dd88-11e8-95e9-1155142868ed_c4431627-f020-4321-9498-2e55e91b14e3_thumb.jpg",
+                        "4:30"));
         mLists.add(
                 new AudioBean("100002", "勇气", "http://sq-sycdn.kuwo.cn/resource/n1/98/51/3777061809.mp3", "梁静茹", "周杰伦信息",
                         "勇气", "电影《勇气》主题曲,尤其以最美的不是下雨天,是与你一起躲过雨的屋檐最为经典",
                         "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559698193627&di=711751f16fefddbf4cbf71da7d8e6d66&imgtype=jpg&src=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D213168965%2C1040740194%26fm%3D214%26gp%3D0.jpg",
+                        "https://static.fotor.com.cn/assets/projects/pages/fdd046a0-476e-11e8-a6a9-d5a11ceffd18_b7335572-9411-4096-8ab0-41db5cab4fb4_new_thumb.jpg",
                         "4:40"));
         mLists.add(
                 new AudioBean("100003", "春天里", "http://sp-sycdn.kuwo.cn/resource/n2/52/80/2933081485.mp3", "汪峰", "汪峰信息",
                         "灿烂如你", "电影《不能说的秘密》主题曲,尤其以最美的不是下雨天,是与你一起躲过雨的屋檐最为经典",
                         "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559698239736&di=3433a1d95c589e31a36dd7b4c176d13a&imgtype=0&src=http%3A%2F%2Fpic.zdface.com%2Fupload%2F201051814737725.jpg",
+                        "https://static.fotor.com.cn/assets/projects/pages/fdd046a0-476e-11e8-a6a9-d5a11ceffd18_9a7cec13-2645-4bbf-939b-d8ff47736c60_thumb.jpg",
                         "3:20"));
         mLists.add(
                 new AudioBean("100004", "小幸运", "http://sr-sycdn.kuwo.cn/resource/n2/33/25/2629654819.mp3", "五月天", "五月天信息", "小情歌",
                         "电影《不能说的秘密》主题曲,尤其以最美的不是下雨天,是与你一起躲过雨的屋檐最为经典",
                         "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1559698289780&di=5146d48002250bf38acfb4c9b4bb6e4e&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20131220%2Fbki-20131220170401-1254350944.jpg",
+                        "https://static.fotor.com.cn/assets/projects/pages/a09f65a0-b1c3-11e8-9a08-0385f970c882_a82d5439-d76b-48cc-a5d5-471764dae95d_thumb.jpg",
                         "2:45"));
         AudioHelper.getInstance().startMusicService(mLists);
     }

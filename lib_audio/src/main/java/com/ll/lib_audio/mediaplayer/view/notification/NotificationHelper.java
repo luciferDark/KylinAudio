@@ -195,7 +195,6 @@ public class NotificationHelper {
      * 更新为加载状态
      */
     public void showLoadStatus(AudioBean bean) {
-        Log.w(TAG, "showLoadStatus: " + bean);
         if (null != bean){
             mAudioBean = bean;
         }
@@ -241,7 +240,7 @@ public class NotificationHelper {
     /**
      * 更新收藏状态
      */
-    public void changeFavorStatus(AudioBean audioBean) {
+    public void changeFavorStatus(AudioBean audioBean, boolean addOrRemove) {
         if (null == mBigNotificationView) {
             Log.w(TAG, "changeFavorStatus null: ");
             return;

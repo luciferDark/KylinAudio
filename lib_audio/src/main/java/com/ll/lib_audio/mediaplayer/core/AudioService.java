@@ -113,8 +113,11 @@ public class AudioService extends Service implements NotificationHelper.Notifica
             case EVENT_PASUE:
                 onAudioEvent_ShowPauseView(event);
                 break;
-            case EVENT_FAVOURITE:
-                onAudioEvent_ShowFavouriteView(event);
+            case EVENT_ADD_FAVOURITE:
+                onAudioEvent_ShowFavouriteView(event, true);
+                break;
+            case EVENT_REMOVE_FAVOURITE:
+                onAudioEvent_ShowFavouriteView(event, false);
                 break;
         }
     }
@@ -146,9 +149,10 @@ public class AudioService extends Service implements NotificationHelper.Notifica
     /**
      * 处理音频播放Eventbus收藏事件
      * @param event
+     * @param addOrRemove true == add | false == remove
      */
-    private void onAudioEvent_ShowFavouriteView(AudioEvent event) {
-        NotificationHelper.getInstance().changeFavorStatus(event.audioBean);
+    private void onAudioEvent_ShowFavouriteView(AudioEvent event, boolean addOrRemove) {
+        NotificationHelper.getInstance().changeFavorStatus(event.audioBean, addOrRemove);
     }
 
     /**
@@ -208,7 +212,7 @@ public class AudioService extends Service implements NotificationHelper.Notifica
                     AudioController.getInstance().switchPlayOrPause();
                     break;
                 case EXTRA_FAVOR:
-                    AudioController.getInstance().changeFavouriteStatus();
+                    AudioController.getInstance().changeFavourite();
                     break;
                 case EXTRA_PREV:
                     AudioController.getInstance().preview();

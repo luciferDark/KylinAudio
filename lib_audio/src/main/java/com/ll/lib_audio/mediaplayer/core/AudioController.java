@@ -164,6 +164,12 @@ public class AudioController {
      */
     public void setPlayMode(PlayMode playMode) {
         this.mPlayMode = playMode;
+        //发送播放模式修改事件
+        EventBus.getDefault().post(
+                new AudioEvent(AudioEvent.Status.EVENT_PLAY_MODE,
+                        "set play mode" + playMode.toString(),
+                        null,
+                        playMode));
     }
 
     /**
@@ -240,17 +246,17 @@ public class AudioController {
     /**
      *  修改歌曲收藏状态
      */
-    public void changeFavouriteStatus(){
+    public void changeFavourite(){
         if (null != GreenDaoHelper.getInstance().queryFavouriteAudioBean(getCurrentAudioBean())){
             //当前歌曲已经收藏
             GreenDaoHelper.getInstance().removeFavouriteAudioBean(getCurrentAudioBean());
-            EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_FAVOURITE,
+            EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_REMOVE_FAVOURITE,
                     "remove audio bean from db" + getCurrentAudioBean().getId(),
                     getCurrentAudioBean()));
         } else {
             //当前歌曲未收藏
             GreenDaoHelper.getInstance().addFavouriteAudioBean(getCurrentAudioBean());
-            EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_FAVOURITE,
+            EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_ADD_FAVOURITE,
                     "add audio bean into db" + getCurrentAudioBean().getId(),
                     getCurrentAudioBean()));
         }
