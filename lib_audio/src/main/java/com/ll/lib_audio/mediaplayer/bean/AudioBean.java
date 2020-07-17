@@ -110,6 +110,12 @@ public class AudioBean implements Serializable {
     public void setTotalTime(String totalTime) {
         this.totalTime = totalTime;
     }
+    public String getPlayBackground() {
+        return this.playBackground;
+    }
+    public void setPlayBackground(String playBackground) {
+        this.playBackground = playBackground;
+    }
 
     @Override
     public String toString() {
@@ -125,11 +131,5 @@ public class AudioBean implements Serializable {
                 ", playBackground='" + playBackground + '\'' +
                 ", totalTime='" + totalTime + '\'' +
                 '}';
-    }
-    public String getPlayBackground() {
-        return this.playBackground;
-    }
-    public void setPlayBackground(String playBackground) {
-        this.playBackground = playBackground;
     }
 }

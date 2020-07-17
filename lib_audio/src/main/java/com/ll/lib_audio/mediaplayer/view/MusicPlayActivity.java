@@ -128,8 +128,6 @@ public class MusicPlayActivity extends FragmentActivity
         mSongSingerTxt.setText(mAudioBean.getSinger());
         mProgress.setProgress(0);
         mProgress.setEnabled(false);
-
-        updatePlayModeView(false);
     }
 
     /**
@@ -160,6 +158,8 @@ public class MusicPlayActivity extends FragmentActivity
      * 初始化控件监听器
      */
     private void initListener() {
+        updatePlayModeView(false);
+
         mBackBtn.setOnClickListener(this);
         mShateBtn.setOnClickListener(this);
 
@@ -188,8 +188,11 @@ public class MusicPlayActivity extends FragmentActivity
         } else if (v.getId() == R.id.layout_music_play_bottom_btn_play_mode) {
             changePlayMode();
         } else if (v.getId() == R.id.layout_music_play_bottom_btn_pre) {
+            AudioController.getInstance().preview();
         } else if (v.getId() == R.id.layout_music_play_bottom_btn_play_or_pause) {
+            AudioController.getInstance().switchPlayOrPause();
         } else if (v.getId() == R.id.layout_music_play_bottom_btn_next) {
+            AudioController.getInstance().next();
         } else if (v.getId() == R.id.layout_music_play_bottom_btn_music_list) {
         }
     }
@@ -219,6 +222,18 @@ public class MusicPlayActivity extends FragmentActivity
     public void onAudioEvent(AudioEvent event) {
         AudioEvent.Status code = event.eventCode;
         switch (code) {
+            case EVENT_LOAD:
+                onAudioEvent_ShowLoadView(event);
+                break;
+            case EVENT_START:
+                onAudioEvent_ShowStartView(event);
+                break;
+            case EVENT_RESUME:
+                onAudioEvent_ShowStartView(event);
+                break;
+            case EVENT_PASUE:
+                onAudioEvent_ShowPauseView(event);
+                break;
             case EVENT_PLAY_MODE:
                 onAudioEvent_PlayModeChanged(event.playMode);
                 break;
@@ -229,6 +244,30 @@ public class MusicPlayActivity extends FragmentActivity
                 onAudioEvent_ShowFavouriteView(event, false);
                 break;
         }
+    }
+    /**
+     *  监听音乐加载事件
+     * @param event
+     */
+    private void onAudioEvent_ShowLoadView(AudioEvent event) {
+        initData();
+        initUIState();
+    }
+
+    /**
+     *  监听音乐开始播放事件
+     * @param event
+     */
+    private void onAudioEvent_ShowStartView(AudioEvent event) {
+        mPlayPauseBtn.setImageResource(R.mipmap.audio_aj6);
+    }
+
+    /**
+     *  监听暂停事件
+     * @param event
+     */
+    private void onAudioEvent_ShowPauseView(AudioEvent event) {
+        mPlayPauseBtn.setImageResource(R.mipmap.audio_aj7);
     }
 
     /**

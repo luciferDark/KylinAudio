@@ -218,8 +218,8 @@ public class NotificationHelper {
             return;
         }
         Log.w(TAG, "showPlayStatus: ");
-        mBigNotificationView.setImageViewResource(R.id.notification_big_music_play, R.mipmap.note_btn_play_white);
-        mSmallNotificationView.setImageViewResource(R.id.notification_small_music_play, R.mipmap.note_btn_play_white);
+        mBigNotificationView.setImageViewResource(R.id.notification_big_music_play, R.mipmap.note_btn_pause_white);
+        mSmallNotificationView.setImageViewResource(R.id.notification_small_music_play, R.mipmap.note_btn_pause_white);
         mNotificationManager.notify(NOTIFICATION_ID, mNotification);
     }
 
@@ -232,8 +232,8 @@ public class NotificationHelper {
             return;
         }
         Log.w(TAG, "showPauseStatus: ");
-        mBigNotificationView.setImageViewResource(R.id.notification_big_music_play, R.mipmap.note_btn_pause_white);
-        mSmallNotificationView.setImageViewResource(R.id.notification_small_music_play, R.mipmap.note_btn_pause_white);
+        mBigNotificationView.setImageViewResource(R.id.notification_big_music_play, R.mipmap.note_btn_play_white);
+        mSmallNotificationView.setImageViewResource(R.id.notification_small_music_play, R.mipmap.note_btn_play_white);
         mNotificationManager.notify(NOTIFICATION_ID, mNotification);
     }
 

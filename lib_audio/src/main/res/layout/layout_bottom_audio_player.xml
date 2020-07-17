@@ -35,6 +35,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="20dp"
             android:layout_toStartOf="@+id/bottom_audio_player_music_list"
             android:contentDescription="@string/app_name"
@@ -44,13 +45,13 @@
             android:id="@+id/bottom_audio_player_music_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/bottom_audio_player_album_img"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_toStartOf="@+id/bottom_audio_player_start_or_pause"
             android:layout_toEndOf="@+id/bottom_audio_player_album_img"
             android:ellipsize="end"
             android:fontFamily="casual"
             android:maxEms="10"
+            android:maxLines="1"
             android:textSize="16sp" />
 
         <TextView
@@ -58,12 +59,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/bottom_audio_player_album_img"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_toStartOf="@+id/bottom_audio_player_start_or_pause"
             android:layout_toEndOf="@+id/bottom_audio_player_album_img"
             android:ellipsize="end"
             android:fontFamily="casual"
             android:maxEms="14"
+            android:maxLines="1"
             android:textSize="12sp" />
     </RelativeLayout>
 
