@@ -10,7 +10,7 @@
         android:background="@mipmap/audio_indicator_disc_bg">
 
         <ImageView
-            android:id="@+id/layout_audio_indicator_img"
+            android:id="@+id/layout_audio_indicator_album_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
