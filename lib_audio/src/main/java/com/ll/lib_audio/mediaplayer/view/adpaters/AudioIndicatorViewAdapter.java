@@ -3,6 +3,7 @@ package com.ll.lib_audio.mediaplayer.view.adpaters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
  * @Description
  */
 public class AudioIndicatorViewAdapter extends PagerAdapter {
-
+    private final String TAG = "IndicatorViewAdapter";
     private ArrayList<AudioBean> mAudioList;
     private WeakReference<Context> mContextReference;
     private AudioIndicatorViewAdapterCallback mCallback;
@@ -44,13 +45,13 @@ public class AudioIndicatorViewAdapter extends PagerAdapter {
         this.mAnimations = new SparseArray<>();
     }
 
-    @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, int position) {
+        Log.d(TAG, "instantiateItem:position "+ position);
         View mViewRoot = LayoutInflater.from(mContextReference.get()).inflate(R.layout.layout_audio_indicator_item, null);
         ImageView mAlbumImg = mViewRoot.findViewById(R.id.layout_audio_indicator_album_img);
+        container.addView(mViewRoot);
         ImageLoaderManager.newInstance().loadImageForCircle(mAlbumImg, mAudioList.get(position).getAlbumPic());
-
         createItemAnimation(mViewRoot, position);
         return mViewRoot;
     }
@@ -62,6 +63,7 @@ public class AudioIndicatorViewAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
+        Log.d(TAG, "getCount:mAudioList "+ mAudioList.size());
         return null == mAudioList ? 0 : mAudioList.size();
     }
 

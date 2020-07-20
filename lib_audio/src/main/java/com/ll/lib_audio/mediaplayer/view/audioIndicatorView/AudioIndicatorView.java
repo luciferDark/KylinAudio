@@ -3,6 +3,7 @@ package com.ll.lib_audio.mediaplayer.view.audioIndicatorView;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.RotateAnimation;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 public class AudioIndicatorView extends RelativeLayout
         implements ViewPager.OnPageChangeListener,
         AudioIndicatorViewAdapter.AudioIndicatorViewAdapterCallback {
+    private static final String TAG = "AudioIndicatorView";
     private WeakReference<Context> mContextReference;
     //    UI
     private ImageView mAlbumImg;
@@ -65,6 +67,7 @@ public class AudioIndicatorView extends RelativeLayout
     private void initData() {
         mAudioBean = AudioController.getInstance().getCurrentAudioBean();
         mAudioList = AudioController.getInstance().getQueue();
+        Log.d(TAG, "initData:mAudioBean " + mAudioBean);
     }
 
     @Override
@@ -89,6 +92,7 @@ public class AudioIndicatorView extends RelativeLayout
      * 初始化UI
      */
     private void initView() {
+        Log.d(TAG, "initData:initView ");
         if (null == mContextReference.get()) {
             throw new RuntimeException("AudioIndicatorView context is null");
         }
@@ -97,7 +101,6 @@ public class AudioIndicatorView extends RelativeLayout
 
         mIndicatorStylus = mViewRoot.findViewById(R.id.layout_audio_indicator_stylus);
         mViewPager = mViewRoot.findViewById(R.id.layout_audio_indicator_viewpager);
-
         setViewPager();
     }
 
@@ -105,11 +108,13 @@ public class AudioIndicatorView extends RelativeLayout
      * 配置ViewPager
      */
     private void setViewPager() {
+        Log.d(TAG, "initData:setViewPager ");
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
+        Log.d(TAG, "initData:mAudioList "+ mAudioList.toString());
         mAdapter = new AudioIndicatorViewAdapter(mContextReference.get(), mAudioList, this);
         mViewPager.setAdapter(mAdapter);
-
+        mAdapter.notifyDataSetChanged();
         showLoadingView(false);
         mViewPager.setOnPageChangeListener(this);
     }
@@ -166,6 +171,7 @@ public class AudioIndicatorView extends RelativeLayout
      * @param isSmootScroll
      */
     private void showLoadingView(boolean isSmootScroll) {
+        Log.d(TAG, "showLoadingView: " + mAudioList.indexOf(mAudioBean));
         mViewPager.setCurrentItem(mAudioList.indexOf(mAudioBean), isSmootScroll);
     }
 
