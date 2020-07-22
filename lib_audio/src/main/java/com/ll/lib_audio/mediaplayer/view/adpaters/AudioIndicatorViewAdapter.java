@@ -78,7 +78,9 @@ public class AudioIndicatorViewAdapter extends PagerAdapter {
      * @return
      */
     public RotateAnimation createItemAnimation(View view, int position){
-        RotateAnimation mAnimation = new RotateAnimation(0, 360);
+        RotateAnimation mAnimation = new RotateAnimation(0, 360
+                ,Animation.RELATIVE_TO_SELF, 0.5f
+                ,Animation.RELATIVE_TO_SELF, 0.5f);
         mAnimation.setDuration(2000);
         mAnimation.setRepeatCount(Animation.INFINITE);
         mAnimation.setInterpolator(new LinearInterpolator());

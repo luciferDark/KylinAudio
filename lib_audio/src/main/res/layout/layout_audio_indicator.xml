@@ -10,17 +10,19 @@
         android:layout_height="1dip"
         android:layout_centerHorizontal="true" />
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/layout_audio_indicator_viewpager"
+        android:layout_width="360dp"
+        android:layout_height="360dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp" />
+
     <ImageView
         android:id="@+id/layout_audio_indicator_stylus"
-        android:layout_width="120dip"
-        android:layout_height="180dip"
-        android:layout_marginStart="-16dip"
+        android:layout_width="80dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="-16dp"
         android:layout_toEndOf="@+id/layout_audio_indicator_horizontal_center"
         android:src="@mipmap/audio_indicator_stylus" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/layout_audio_indicator_viewpager"
-        android:layout_width="match_parent"
-        android:layout_marginTop="100dp"
-        android:layout_height="360dp"/>
 </RelativeLayout>

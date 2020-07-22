@@ -97,7 +97,7 @@ public class AudioIndicatorView extends RelativeLayout
             throw new RuntimeException("AudioIndicatorView context is null");
         }
         View mViewRoot = LayoutInflater.from(mContextReference.get())
-                .inflate(R.layout.layout_audio_indicator, null);
+                .inflate(R.layout.layout_audio_indicator, this);
 
         mIndicatorStylus = mViewRoot.findViewById(R.id.layout_audio_indicator_stylus);
         mViewPager = mViewRoot.findViewById(R.id.layout_audio_indicator_viewpager);
@@ -182,7 +182,6 @@ public class AudioIndicatorView extends RelativeLayout
         if (null == mAdapter) {
             return;
         }
-
         RotateAnimation animation = mAdapter.getItemAnimationByPosition(mViewPager.getCurrentItem());
         if (null != animation) {
             animation.start();
