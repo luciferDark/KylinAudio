@@ -14,6 +14,7 @@ import com.ll.lib_audio.R;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
 import com.ll.lib_audio.mediaplayer.core.AudioController;
 import com.ll.lib_audio.mediaplayer.event.AudioEvent;
+import com.ll.lib_audio.mediaplayer.view.audioIndicatorView.AudioIndicatorView;
 import com.ll.lib_image_loader.glide.app.ImageLoaderManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,6 +51,7 @@ public class MusicPlayActivity extends FragmentActivity
     private ImageView mPlayPauseBtn;
     private ImageView mNextSongBtn;
     private ImageView mMusicListBtn;
+    private AudioIndicatorView mAudioIndicatorView;
 
     //    Datas
     private AudioBean mAudioBean;
@@ -113,6 +115,8 @@ public class MusicPlayActivity extends FragmentActivity
         mPlayPauseBtn = findViewById(R.id.layout_music_play_bottom_btn_play_or_pause);
         mNextSongBtn = findViewById(R.id.layout_music_play_bottom_btn_next);
         mMusicListBtn = findViewById(R.id.layout_music_play_bottom_btn_music_list);
+
+        mAudioIndicatorView = findViewById(R.id.layout_music_play_audio_indicator_view);
     }
 
     /**
@@ -184,7 +188,9 @@ public class MusicPlayActivity extends FragmentActivity
             AudioController.getInstance().changeFavourite();
         } else if (v.getId() == R.id.layout_music_play_bottom_btn_download) {
         } else if (v.getId() == R.id.layout_music_play_bottom_btn_ring) {
+            mAudioIndicatorView.playPauseStylusAnimation(true);
         } else if (v.getId() == R.id.layout_music_play_bottom_btn_comment) {
+            mAudioIndicatorView.playPauseStylusAnimation(false);
         } else if (v.getId() == R.id.layout_music_play_bottom_btn_play_mode) {
             changePlayMode();
         } else if (v.getId() == R.id.layout_music_play_bottom_btn_pre) {

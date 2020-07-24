@@ -82,6 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <com.ll.lib_audio.mediaplayer.view.audioIndicatorView.AudioIndicatorView
+            android:id="@+id/layout_music_play_audio_indicator_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </RelativeLayout>

@@ -21,7 +21,7 @@
         android:id="@+id/layout_audio_indicator_stylus"
         android:layout_width="80dp"
         android:layout_height="120dp"
-        android:layout_marginStart="-16dp"
+        android:layout_marginStart="-17dp"
         android:layout_toEndOf="@+id/layout_audio_indicator_horizontal_center"
         android:src="@mipmap/audio_indicator_stylus" />
 

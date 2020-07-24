@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -42,6 +44,10 @@ public class AudioIndicatorView extends RelativeLayout
     //    datas
     private AudioBean mAudioBean;
     private ArrayList<AudioBean> mAudioList;
+    //    animation
+    private RotateAnimation mPlayRotateAnimation = null;
+    private RotateAnimation mPauseRotateAnimation = null;
+    private boolean mIsStylusPlay = false;  //用于标志撞针是否在播放状态
 
     public AudioIndicatorView(Context context) {
         this(context, null);
@@ -67,7 +73,6 @@ public class AudioIndicatorView extends RelativeLayout
     private void initData() {
         mAudioBean = AudioController.getInstance().getCurrentAudioBean();
         mAudioList = AudioController.getInstance().getQueue();
-        Log.d(TAG, "initData:mAudioBean " + mAudioBean);
     }
 
     @Override
@@ -101,6 +106,8 @@ public class AudioIndicatorView extends RelativeLayout
 
         mIndicatorStylus = mViewRoot.findViewById(R.id.layout_audio_indicator_stylus);
         mViewPager = mViewRoot.findViewById(R.id.layout_audio_indicator_viewpager);
+        mPlayRotateAnimation = createIndicatorStylusAnimation(mIndicatorStylus, true);
+        mPauseRotateAnimation = createIndicatorStylusAnimation(mIndicatorStylus, false);
         setViewPager();
     }
 
@@ -111,7 +118,7 @@ public class AudioIndicatorView extends RelativeLayout
         Log.d(TAG, "initData:setViewPager ");
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        Log.d(TAG, "initData:mAudioList "+ mAudioList.toString());
+        Log.d(TAG, "initData:mAudioList " + mAudioList.toString());
         mAdapter = new AudioIndicatorViewAdapter(mContextReference.get(), mAudioList, this);
         mViewPager.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
@@ -146,11 +153,12 @@ public class AudioIndicatorView extends RelativeLayout
 
     /**
      * EventBus动画监听器
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAudioEvent(AudioEvent event){
-        switch (event.eventCode){
+    public void onAudioEvent(AudioEvent event) {
+        switch (event.eventCode) {
             case EVENT_LOAD:
                 this.mAudioBean = event.audioBean;
                 showLoadingView(true);
@@ -168,6 +176,7 @@ public class AudioIndicatorView extends RelativeLayout
 
     /**
      * 设置当前播放歌曲
+     *
      * @param isSmootScroll
      */
     private void showLoadingView(boolean isSmootScroll) {
@@ -211,5 +220,54 @@ public class AudioIndicatorView extends RelativeLayout
     @Override
     public void onPauseStatus() {
 
+    }
+
+    /**
+     * 创建撞针动画
+     *
+     * @param view
+     * @return
+     */
+    public RotateAnimation createIndicatorStylusAnimation(View view, boolean startOrPause) {
+        RotateAnimation rotateAnimation = null;
+        int fromDegree = 0;
+        int toDegree = 0;
+        if (startOrPause){
+            //start动画
+            fromDegree = -30;
+            toDegree = 0;
+        } else {
+            //pause动画
+            fromDegree = 0;
+            toDegree = -30;
+        }
+        rotateAnimation = new RotateAnimation(fromDegree, toDegree
+                , Animation.RELATIVE_TO_SELF, 0.1822f
+                , Animation.RELATIVE_TO_SELF, 0.1168f);
+        rotateAnimation.setDuration(800);
+        rotateAnimation.setInterpolator(new LinearInterpolator());
+        rotateAnimation.setFillAfter(true);
+        rotateAnimation.setFillBefore(true);
+        return rotateAnimation;
+    }
+
+    public void playPauseStylusAnimation(boolean startOrPause){
+        Log.d(TAG, "playPauseStylusAnimation: " + startOrPause);
+        if (null == mPlayRotateAnimation || null == mPauseRotateAnimation || null == mIndicatorStylus){
+            Log.d(TAG, "playPauseStylusAnimation null: ");
+            return;
+        }
+
+        if (startOrPause){
+            //转变开始状态
+            mPauseRotateAnimation.cancel();
+            mPlayRotateAnimation.start();
+            mIndicatorStylus.startAnimation(mPlayRotateAnimation);
+        } else{
+            //转变为结束状态
+            mPlayRotateAnimation.cancel();
+            mPauseRotateAnimation.start();
+            mIndicatorStylus.startAnimation(mPauseRotateAnimation);
+        }
     }
 }
