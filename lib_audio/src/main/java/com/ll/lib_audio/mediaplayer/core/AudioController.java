@@ -1,5 +1,7 @@
 package com.ll.lib_audio.mediaplayer.core;
 
+import android.util.Log;
+
 import com.ll.lib_audio.mediaplayer.event.AudioEvent;
 import com.ll.lib_audio.mediaplayer.exception.AudioQueueEmptyException;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
@@ -55,6 +57,7 @@ public class AudioController {
     private AudioPlayer mAudioPlayer;
     private PlayMode mPlayMode;
     private ArrayList<AudioBean> mQueue;
+    private static final String TAG = "AudioController";
 
     //--------------处理播放队列----------------------
 
@@ -305,6 +308,7 @@ public class AudioController {
      */
     public void next() {
         AudioBean audioBean = getNextAudioBean();
+        Log.d(TAG, "next: " + audioBean);
         mAudioPlayer.loadAudio(audioBean);
     }
 

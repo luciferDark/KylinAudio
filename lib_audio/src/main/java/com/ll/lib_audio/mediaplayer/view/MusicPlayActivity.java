@@ -1,5 +1,8 @@
 package com.ll.lib_audio.mediaplayer.view;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -71,6 +74,15 @@ public class MusicPlayActivity extends FragmentActivity
         EventBus.getDefault().unregister(MusicPlayActivity.this);
     }
 
+    public static void startMusicActivity(Context context){
+        if(context == null){
+            return;
+        }
+
+        Intent intent = new Intent(context, MusicPlayActivity.class);
+        context.startActivity(intent);
+    }
+
     /**
      * 初始化
      */
@@ -125,11 +137,13 @@ public class MusicPlayActivity extends FragmentActivity
     private void initUIState() {
         ImageLoaderManager
                 .newInstance()
-                .loadImageForViewGroupWithFluzzy(mRootLayout, mAudioBean.getPlayBackground());
+                .loadImageForViewGroupWithFluzzy(mRootLayout, mAudioBean.getAlbumPic());
 
         mSongNameTxt.setText(mAudioBean.getName());
         mSongNameTxt.requestFocus();
         mSongSingerTxt.setText(mAudioBean.getSinger());
+        mCurrentTimeTxt.setText("00:00");
+        mEndTimeTxt.setText(mAudioBean.getTotalTime());
         mProgress.setProgress(0);
         mProgress.setEnabled(false);
     }
@@ -232,8 +246,8 @@ public class MusicPlayActivity extends FragmentActivity
                 onAudioEvent_ShowLoadView(event);
                 break;
             case EVENT_START:
-                onAudioEvent_ShowStartView(event);
-                break;
+//                onAudioEvent_ShowStartView(event);
+//                break;
             case EVENT_RESUME:
                 onAudioEvent_ShowStartView(event);
                 break;

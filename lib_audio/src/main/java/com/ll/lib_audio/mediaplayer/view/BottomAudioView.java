@@ -119,6 +119,7 @@ public class BottomAudioView extends RelativeLayout {
 
     private void jumpIntoMusicActivity() {
         //todo 跳转到音乐播放器
+        MusicPlayActivity.startMusicActivity(mContext);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

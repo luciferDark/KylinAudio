@@ -73,6 +73,7 @@ public class AudioIndicatorView extends RelativeLayout
     private void initData() {
         mAudioBean = AudioController.getInstance().getCurrentAudioBean();
         mAudioList = AudioController.getInstance().getQueue();
+        Log.d(TAG, "initData: " + mAudioList);
     }
 
     @Override
@@ -141,9 +142,11 @@ public class AudioIndicatorView extends RelativeLayout
     public void onPageScrollStateChanged(int state) {
         switch (state) {
             case ViewPager.SCROLL_STATE_IDLE:
+                playPauseStylusAnimation(true);
                 showPlayView();
                 break;
             case ViewPager.SCROLL_STATE_DRAGGING:
+                playPauseStylusAnimation(false);
                 showPauseView();
                 break;
             case ViewPager.SCROLL_STATE_SETTLING:
@@ -160,6 +163,7 @@ public class AudioIndicatorView extends RelativeLayout
     public void onAudioEvent(AudioEvent event) {
         switch (event.eventCode) {
             case EVENT_LOAD:
+                Log.d(TAG, "showLoadingView old: " + mAudioBean);
                 this.mAudioBean = event.audioBean;
                 showLoadingView(true);
                 break;
@@ -180,7 +184,6 @@ public class AudioIndicatorView extends RelativeLayout
      * @param isSmootScroll
      */
     private void showLoadingView(boolean isSmootScroll) {
-        Log.d(TAG, "showLoadingView: " + mAudioList.indexOf(mAudioBean));
         mViewPager.setCurrentItem(mAudioList.indexOf(mAudioBean), isSmootScroll);
     }
 
@@ -244,7 +247,7 @@ public class AudioIndicatorView extends RelativeLayout
         rotateAnimation = new RotateAnimation(fromDegree, toDegree
                 , Animation.RELATIVE_TO_SELF, 0.1822f
                 , Animation.RELATIVE_TO_SELF, 0.1168f);
-        rotateAnimation.setDuration(800);
+        rotateAnimation.setDuration(700);
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setFillAfter(true);
         rotateAnimation.setFillBefore(true);
