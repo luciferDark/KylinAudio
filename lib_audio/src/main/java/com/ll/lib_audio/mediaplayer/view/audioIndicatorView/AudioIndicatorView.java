@@ -48,6 +48,7 @@ public class AudioIndicatorView extends RelativeLayout
     private RotateAnimation mPlayRotateAnimation = null;
     private RotateAnimation mPauseRotateAnimation = null;
     private boolean mIsStylusPlay = false;  //用于标志撞针是否在播放状态
+    private boolean mIsScrollViewPager = false;  //用于标志是否是手动滑动viewpager切换歌曲
 
     public AudioIndicatorView(Context context) {
         this(context, null);
@@ -142,10 +143,12 @@ public class AudioIndicatorView extends RelativeLayout
     public void onPageScrollStateChanged(int state) {
         switch (state) {
             case ViewPager.SCROLL_STATE_IDLE:
+                mIsScrollViewPager = true;
                 playPauseStylusAnimation(true);
                 showPlayView();
                 break;
             case ViewPager.SCROLL_STATE_DRAGGING:
+                mIsScrollViewPager = false;
                 playPauseStylusAnimation(false);
                 showPauseView();
                 break;
@@ -168,11 +171,15 @@ public class AudioIndicatorView extends RelativeLayout
                 showLoadingView(true);
                 break;
             case EVENT_PASUE:
-                showPauseView();
+                if (!mIsScrollViewPager){
+                    showPauseView();
+                }
                 break;
             case EVENT_START:
             case EVENT_RESUME:
-                showPlayView();
+                if (!mIsScrollViewPager){
+                    showPlayView();
+                }
                 break;
         }
 

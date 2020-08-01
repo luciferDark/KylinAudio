@@ -17,6 +17,7 @@ import com.ll.lib_audio.R;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
 import com.ll.lib_audio.mediaplayer.core.AudioController;
 import com.ll.lib_audio.mediaplayer.event.AudioEvent;
+import com.ll.lib_audio.mediaplayer.greendao.GreenDaoHelper;
 import com.ll.lib_audio.mediaplayer.view.audioIndicatorView.AudioIndicatorView;
 import com.ll.lib_image_loader.glide.app.ImageLoaderManager;
 
@@ -146,6 +147,8 @@ public class MusicPlayActivity extends FragmentActivity
         mEndTimeTxt.setText(mAudioBean.getTotalTime());
         mProgress.setProgress(0);
         mProgress.setEnabled(false);
+
+        changeFavorUI(isFavor(mAudioBean));
     }
 
     /**
@@ -246,8 +249,6 @@ public class MusicPlayActivity extends FragmentActivity
                 onAudioEvent_ShowLoadView(event);
                 break;
             case EVENT_START:
-//                onAudioEvent_ShowStartView(event);
-//                break;
             case EVENT_RESUME:
                 onAudioEvent_ShowStartView(event);
                 break;
@@ -304,6 +305,14 @@ public class MusicPlayActivity extends FragmentActivity
             return;
         }
         mFavorBtn.setImageResource(isFavourited ? R.mipmap.audio_aeh : R.mipmap.audio_aef);
+    }
+
+    /**
+     * 判断歌曲是否收藏了
+     * @param bean
+     */
+    private boolean isFavor(AudioBean bean) {
+        return GreenDaoHelper.getInstance().queryFavouriteAudioBean(bean) != null;
     }
 
     /**
