@@ -143,12 +143,12 @@ public class AudioIndicatorView extends RelativeLayout
     public void onPageScrollStateChanged(int state) {
         switch (state) {
             case ViewPager.SCROLL_STATE_IDLE:
-                mIsScrollViewPager = true;
+                mIsScrollViewPager = false;
                 playPauseStylusAnimation(true);
                 showPlayView();
                 break;
             case ViewPager.SCROLL_STATE_DRAGGING:
-                mIsScrollViewPager = false;
+                mIsScrollViewPager = true;
                 playPauseStylusAnimation(false);
                 showPauseView();
                 break;
@@ -164,6 +164,7 @@ public class AudioIndicatorView extends RelativeLayout
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAudioEvent(AudioEvent event) {
+        Log.d(TAG, "onAudioEvent : " + event.eventCode);
         switch (event.eventCode) {
             case EVENT_LOAD:
                 Log.d(TAG, "showLoadingView old: " + mAudioBean);
@@ -201,8 +202,10 @@ public class AudioIndicatorView extends RelativeLayout
         if (null == mAdapter) {
             return;
         }
+        Log.d(TAG, "showPlayView: " + mViewPager.getCurrentItem());
         RotateAnimation animation = mAdapter.getItemAnimationByPosition(mViewPager.getCurrentItem());
-        if (null != animation) {
+        if (null != animation && animation.hasEnded()) {
+            Log.d(TAG, "showPlayView: animation.start");
             animation.start();
         }
     }
@@ -214,9 +217,10 @@ public class AudioIndicatorView extends RelativeLayout
         if (null == mAdapter) {
             return;
         }
-
+        Log.d(TAG, "showPauseView: " + mViewPager.getCurrentItem());
         RotateAnimation animation = mAdapter.getItemAnimationByPosition(mViewPager.getCurrentItem());
-        if (null != animation) {
+        if (null != animation && animation.hasStarted()) {
+            Log.d(TAG, "showPauseView: animation.cancel");
             animation.cancel();
         }
     }

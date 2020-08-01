@@ -87,6 +87,7 @@ public class AudioPlayer implements
             mCommonMediaPlayer.setDataSource(audioBean.getUrl());
             mCommonMediaPlayer.prepareAsync();
             // UIEvent -- 加载完成
+            Log.d(TAG, "EventBus : AudioEvent.Status.EVENT_LOAD"+ audioBean);
             EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_LOAD, "audio load", audioBean));
         } catch (Exception e) {
             Log.d(TAG, "loadAudio: " + e.getMessage());

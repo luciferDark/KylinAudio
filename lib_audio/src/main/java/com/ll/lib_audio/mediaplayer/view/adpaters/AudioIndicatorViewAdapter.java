@@ -80,7 +80,7 @@ public class AudioIndicatorViewAdapter extends PagerAdapter {
         RotateAnimation mAnimation = new RotateAnimation(0, 360
                 ,Animation.RELATIVE_TO_SELF, 0.5f
                 ,Animation.RELATIVE_TO_SELF, 0.5f);
-        mAnimation.setDuration(4000);
+        mAnimation.setDuration(6000);
         mAnimation.setRepeatCount(Animation.INFINITE);
         mAnimation.setFillAfter(true);
 //        mAnimation.setFillEnabled(true);
@@ -91,12 +91,12 @@ public class AudioIndicatorViewAdapter extends PagerAdapter {
         if (null != mAnimations){
             mAnimations.put(position, mAnimation);
         }
-        if (mAudioList.get(position) == AudioController.getInstance().getCurrentAudioBean()){
-            //当前播放歌曲,且是播放状态,则开始动画
-            if (AudioController.getInstance().isStartState()){
-                mAnimation.start();
-            }
-        }
+//        if (mAudioList.get(position) == AudioController.getInstance().getCurrentAudioBean()){
+//            //当前播放歌曲,且是播放状态,则开始动画
+//            if (AudioController.getInstance().isStartState()){
+//                mAnimation.start();
+//            }
+//        }
         return mAnimation;
     }
 

@@ -91,7 +91,7 @@ public class MusicPlayActivity extends FragmentActivity
         initData();
 
         initUI();
-        initUIState();
+        initUIState(true);
         initListener();
     }
 
@@ -135,7 +135,7 @@ public class MusicPlayActivity extends FragmentActivity
     /**
      * 初始化控件状态
      */
-    private void initUIState() {
+    private void initUIState(boolean firstIn) {
         ImageLoaderManager
                 .newInstance()
                 .loadImageForViewGroupWithFluzzy(mRootLayout, mAudioBean.getAlbumPic());
@@ -147,7 +147,13 @@ public class MusicPlayActivity extends FragmentActivity
         mEndTimeTxt.setText(mAudioBean.getTotalTime());
         mProgress.setProgress(0);
         mProgress.setEnabled(false);
-
+        if (firstIn){
+            if (AudioController.getInstance().isStartState()){
+                onAudioEvent_ShowStartView(null);
+            } else {
+                onAudioEvent_ShowPauseView(null);
+            }
+        }
         changeFavorUI(isFavor(mAudioBean));
     }
 
@@ -272,7 +278,7 @@ public class MusicPlayActivity extends FragmentActivity
      */
     private void onAudioEvent_ShowLoadView(AudioEvent event) {
         initData();
-        initUIState();
+        initUIState(false);
     }
 
     /**
