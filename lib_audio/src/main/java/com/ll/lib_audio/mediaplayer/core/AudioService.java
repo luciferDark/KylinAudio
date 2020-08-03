@@ -105,8 +105,6 @@ public class AudioService extends Service implements NotificationHelper.Notifica
                 onAudioEvent_ShowLoadView(event);
                 break;
             case EVENT_START:
-                onAudioEvent_ShowStartView(event);
-                break;
             case EVENT_RESUME:
                 onAudioEvent_ShowStartView(event);
                 break;

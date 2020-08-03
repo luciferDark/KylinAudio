@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bottom_list_view_back"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/color_white"
+            android:text="@string/bottom_list_current_playing_list"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/bottom_list_view_list_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/color_gray"
+            android:text="@string/app_name"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/bottom_list_view_play_mode"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/app_name"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/player_loop" />
+
+        <ImageView
+            android:id="@+id/bottom_list_view_delete_list"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/a0a" />
+
+        <LinearLayout
+            android:id="@+id/bottom_list_view_favor_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/bottom_list_view_delete_list"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:textColor="@color/color_white"
+                android:background="@mipmap/audio_apa"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/color_white"
+                android:text="@string/bottom_list_view_favor_all"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/bottom_list_view_play_mode_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/color_white"
+            android:layout_toEndOf="@+id/bottom_list_view_play_mode"
+            android:text="@string/app_name"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <view class="android.support.v7.app.AlertController$RecycleListView"
+            android:id="@+id/bottom_list_view_recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="280dp">
+        </view>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/bottom_list_view_btn_close"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="@color/color_white"
+        android:textSize="20dp"
+        android:text="@string/bottom_list_view_btn_close"/>
+
+</LinearLayout>

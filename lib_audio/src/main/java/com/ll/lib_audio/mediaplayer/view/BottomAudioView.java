@@ -115,6 +115,11 @@ public class BottomAudioView extends RelativeLayout {
 
     private void onClickMusicList() {
         //todo 显示音乐播放列表
+        if (null == mContext){
+            return;
+        }
+        BottomListView listView = new BottomListView(mContext);
+        listView.show();
     }
 
     private void jumpIntoMusicActivity() {

@@ -73,6 +73,22 @@ public class AudioController {
         return mQueue;
     }
 
+    public void removeFromQueue(AudioBean bean){
+        if(this.mQueue == null){
+            return;
+        }
+        if (queryQueue(bean) <= -1) {
+            return;
+        }
+        if (getCurrentAudioBean().getId() == bean.getId()){
+            //当前播放歌曲
+            pause();
+            releaseAudioPlayer();
+        }
+
+        mQueue.remove(bean);
+    }
+
     /**
      * 设置播放队列
      *
@@ -250,18 +266,25 @@ public class AudioController {
      *  修改歌曲收藏状态
      */
     public void changeFavourite(){
-        if (null != GreenDaoHelper.getInstance().queryFavouriteAudioBean(getCurrentAudioBean())){
+        changeFavourite(getCurrentAudioBean());
+    }
+
+
+    /**
+     *  修改歌曲收藏状态
+     * @param bean
+     */
+    public void changeFavourite(AudioBean bean){
+        if (null != GreenDaoHelper.getInstance().queryFavouriteAudioBean(bean)){
             //当前歌曲已经收藏
-            GreenDaoHelper.getInstance().removeFavouriteAudioBean(getCurrentAudioBean());
+            GreenDaoHelper.getInstance().removeFavouriteAudioBean(bean);
             EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_REMOVE_FAVOURITE,
-                    "remove audio bean from db" + getCurrentAudioBean().getId(),
-                    getCurrentAudioBean()));
+                    "remove audio bean from db" + bean.getId(), bean));
         } else {
             //当前歌曲未收藏
-            GreenDaoHelper.getInstance().addFavouriteAudioBean(getCurrentAudioBean());
+            GreenDaoHelper.getInstance().addFavouriteAudioBean(bean);
             EventBus.getDefault().post(new AudioEvent(AudioEvent.Status.EVENT_ADD_FAVOURITE,
-                    "add audio bean into db" + getCurrentAudioBean().getId(),
-                    getCurrentAudioBean()));
+                    "add audio bean into db" + bean.getId(), bean));
         }
     }
 
@@ -290,10 +313,17 @@ public class AudioController {
     /**
      * 释放资源
      */
-    public void release() {
+    public void releaseAudioPlayer() {
         mAudioPlayer.release();
+    }
+    /**
+     * 释放资源
+     */
+    public void release() {
+        releaseAudioPlayer();
         EventBus.getDefault().unregister(this);
     }
+
 
     /**
      * 播放上一首

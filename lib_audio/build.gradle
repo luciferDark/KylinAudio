@@ -33,6 +33,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation rootProject.depsLibs.appcompat_v7
+    implementation rootProject.depsLibs.material
     testImplementation rootProject.depsLibs.junit
     androidTestImplementation rootProject.depsLibs.runner
     androidTestImplementation rootProject.depsLibs.espresso_core
