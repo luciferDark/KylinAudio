@@ -2,20 +2,21 @@ package com.ll.lib_audio.mediaplayer.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.MainThread;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.ll.lib_audio.R;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
 import com.ll.lib_audio.mediaplayer.core.AudioController;
@@ -42,6 +43,7 @@ public class BottomListView extends BottomSheetDialog implements View.OnClickLis
     private DisplayMetrics mDM;
 
     //    UI
+    private View mRootLayout;
     private TextView mListCount;
     private ImageView mPlayModeImg;
     private TextView mPlayModeDesc;
@@ -81,7 +83,8 @@ public class BottomListView extends BottomSheetDialog implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_bottom_list_view);
+        mRootLayout = getLayoutInflater().inflate(R.layout.layout_bottom_list_view, null);
+        setContentView(mRootLayout);
         initData();
         initUI();
         initUIState();
@@ -121,6 +124,22 @@ public class BottomListView extends BottomSheetDialog implements View.OnClickLis
 
         setCancelable(true);
         setCanceledOnTouchOutside(true);
+        dismissFrameWhiteBg();
+    }
+
+    /**
+     * 去除白底背景
+     */
+    private void dismissFrameWhiteBg() {
+        if (null == mRootLayout){
+            return;
+        }
+        try {
+            ViewGroup parent = (ViewGroup) mRootLayout.getParent();
+            parent.setBackgroundResource(android.R.color.transparent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initUIState() {
@@ -131,6 +150,9 @@ public class BottomListView extends BottomSheetDialog implements View.OnClickLis
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mAudioList.setLayoutManager(linearLayoutManager);
+        DividerItemDecoration divider = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
+//        divider.setDrawable(ContextCompat.getDrawable(mContext, R.color.color_lightblue));
+        mAudioList.addItemDecoration(divider);
 
         mAdapter = new BottomListRecycleViewAdapter(mCurrentList,mCurrentAudio,mContext);
         mAudioList.setAdapter(mAdapter);
@@ -174,6 +196,7 @@ public class BottomListView extends BottomSheetDialog implements View.OnClickLis
                 showText = mContext.getResources().getString(R.string.audio_music_play_mode_once);
                 break;
         }
+        this.mPlayMode = mPlayMode;
         mPlayModeDesc.setText(showText);
     }
 
@@ -199,7 +222,7 @@ public class BottomListView extends BottomSheetDialog implements View.OnClickLis
         } else if (v.getId() == R.id.bottom_list_view_delete_list) {
 
         } else if (v.getId() == R.id.bottom_list_view_btn_close) {
-            this.cancel();
+            this.dismiss();
         }
     }
 

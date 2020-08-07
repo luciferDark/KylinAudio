@@ -1,15 +1,15 @@
 package com.ll.lib_audio.mediaplayer.view.adpaters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.ll.lib_audio.R;
 import com.ll.lib_audio.mediaplayer.bean.AudioBean;
@@ -41,7 +41,7 @@ public class BottomListRecycleViewAdapter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BottomListRecycleItemHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull BottomListRecycleItemHolder holder, @SuppressLint("RecyclerView") final int position) {
         int showColor = mContext.get().getResources().getColor(R.color.color_white);
         if (AudioController.getInstance().getCurrentAudioBean().getId() == mCurrentList.get(position).getId()){
             holder.mPlayingIcon.setVisibility(View.VISIBLE);

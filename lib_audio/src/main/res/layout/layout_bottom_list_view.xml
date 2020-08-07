@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/bottom_list_view_back"
+    android:layout_alignParentTop="true"
     android:padding="10dp">
 
     <LinearLayout
@@ -40,8 +41,8 @@
 
         <ImageView
             android:id="@+id/bottom_list_view_play_mode"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:contentDescription="@string/app_name"
             android:layout_centerVertical="true"
             android:src="@mipmap/player_loop" />
@@ -65,8 +66,8 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:textColor="@color/color_white"
                 android:background="@mipmap/audio_apa"
                 android:contentDescription="@string/app_name" />
@@ -77,7 +78,7 @@
                 android:layout_marginStart="10dp"
                 android:textColor="@color/color_white"
                 android:text="@string/bottom_list_view_favor_all"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -86,23 +87,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="6dp"
             android:textColor="@color/color_white"
             android:layout_toEndOf="@+id/bottom_list_view_play_mode"
             android:text="@string/app_name"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <view class="android.support.v7.app.AlertController$RecycleListView"
+        <view class="android.support.v7.widget.RecyclerView"
             android:id="@+id/bottom_list_view_recycle_view"
             android:layout_width="match_parent"
             android:layout_height="280dp">
         </view>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_azure"/>
 
     <TextView
         android:id="@+id/bottom_list_view_btn_close"

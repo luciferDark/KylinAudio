@@ -223,7 +223,13 @@ public class MusicPlayActivity extends FragmentActivity
         } else if (v.getId() == R.id.layout_music_play_bottom_btn_next) {
             AudioController.getInstance().next();
         } else if (v.getId() == R.id.layout_music_play_bottom_btn_music_list) {
+            showBottomListView();
         }
+    }
+
+    private void showBottomListView() {
+        BottomListView listView = new BottomListView(MusicPlayActivity.this);
+        listView.show();
     }
 
     /**
