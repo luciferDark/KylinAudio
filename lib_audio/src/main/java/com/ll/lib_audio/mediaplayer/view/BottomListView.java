@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -39,6 +40,7 @@ import java.util.List;
  * @Description 底部播放列表弹窗
  */
 public class BottomListView extends BottomSheetDialog implements View.OnClickListener {
+    private static final String TAG = "BottomListView";
     private Context mContext;
     private DisplayMetrics mDM;
 
@@ -151,7 +153,6 @@ public class BottomListView extends BottomSheetDialog implements View.OnClickLis
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mAudioList.setLayoutManager(linearLayoutManager);
         DividerItemDecoration divider = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
-//        divider.setDrawable(ContextCompat.getDrawable(mContext, R.color.color_lightblue));
         mAudioList.addItemDecoration(divider);
 
         mAdapter = new BottomListRecycleViewAdapter(mCurrentList,mCurrentAudio,mContext);
@@ -256,6 +257,17 @@ public class BottomListView extends BottomSheetDialog implements View.OnClickLis
             case EVENT_PLAY_MODE:
                 onAudioEvent_playModeEvent(event);
                 break;
+            case EVENT_REMOVE_FROM_QUEUE:
+                onAudioEvent_removeAuidoFromQueue(event);
+                break;
+        }
+    }
+
+    private void onAudioEvent_removeAuidoFromQueue(AudioEvent event) {
+        initData();
+        if (null != mAdapter){
+            Log.d(TAG, "onAudioEvent_removeAuidoFromQueue: " + event);
+            mAdapter.updateCurrentAudioQueue(this.mCurrentList, event.audioBean);
         }
     }
 

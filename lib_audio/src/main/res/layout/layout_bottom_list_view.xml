@@ -5,12 +5,14 @@
     android:orientation="vertical"
     android:background="@drawable/bottom_list_view_back"
     android:layout_alignParentTop="true"
-    android:padding="10dp">
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:paddingTop="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp">
+        android:paddingTop="6dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,8 +43,8 @@
 
         <ImageView
             android:id="@+id/bottom_list_view_play_mode"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:contentDescription="@string/app_name"
             android:layout_centerVertical="true"
             android:src="@mipmap/player_loop" />
@@ -112,13 +114,13 @@
 
     <TextView
         android:id="@+id/bottom_list_view_btn_close"
-        android:paddingTop="14dp"
-        android:paddingBottom="14dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textColor="@color/color_white"
-        android:textSize="20dp"
+        android:textSize="18sp"
         android:text="@string/bottom_list_view_btn_close"/>
 
 </LinearLayout>

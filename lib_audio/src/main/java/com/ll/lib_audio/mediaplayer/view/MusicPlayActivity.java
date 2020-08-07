@@ -276,8 +276,12 @@ public class MusicPlayActivity extends FragmentActivity
             case EVENT_REMOVE_FAVOURITE:
                 onAudioEvent_ShowFavouriteView(event, false);
                 break;
+            case EVENT_REMOVE_FROM_QUEUE:
+                onAudioEvent_RemoveAuidoFromQueue(event);
+                break;
         }
     }
+
     /**
      *  监听音乐加载事件
      * @param event
@@ -336,5 +340,13 @@ public class MusicPlayActivity extends FragmentActivity
             mPlayMode = playMode;
             updatePlayModeView(true);
         }
+    }
+
+    /**
+     *  监听音乐移除出列表事件
+     * @param event
+     */
+    private void onAudioEvent_RemoveAuidoFromQueue(AudioEvent event) {
+        initData();
     }
 }

@@ -80,13 +80,22 @@ public class AudioController {
         if (queryQueue(bean) <= -1) {
             return;
         }
+        boolean isCurrentBean = false;
         if (getCurrentAudioBean().getId() == bean.getId()){
-            //当前播放歌曲
+            //删除的是当前播放歌曲
             pause();
-            releaseAudioPlayer();
+            isCurrentBean = true;
+        }
+        this.mQueue.remove(bean);
+        if (isCurrentBean && this.mQueue != null && this.mQueue.size() > 0){
+            //删除的是当前播放歌曲,在删除之后播放下一首
+            next();
         }
 
-        mQueue.remove(bean);
+        EventBus.getDefault().post(
+                new AudioEvent(AudioEvent.Status.EVENT_REMOVE_FROM_QUEUE,
+                        "remove audio bean from queue",
+                        bean));
     }
 
     /**

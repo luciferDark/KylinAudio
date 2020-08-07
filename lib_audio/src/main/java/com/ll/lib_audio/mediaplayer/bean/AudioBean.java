@@ -122,14 +122,14 @@ public class AudioBean implements Serializable {
         return "AudioBean{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", url='" + url + '\'' +
-                ", singer='" + singer + '\'' +
-                ", singerInfo='" + singerInfo + '\'' +
-                ", album='" + album + '\'' +
-                ", albumInfo='" + albumInfo + '\'' +
-                ", albumPic='" + albumPic + '\'' +
-                ", playBackground='" + playBackground + '\'' +
-                ", totalTime='" + totalTime + '\'' +
+//                ", url='" + url + '\'' +
+//                ", singer='" + singer + '\'' +
+//                ", singerInfo='" + singerInfo + '\'' +
+//                ", album='" + album + '\'' +
+//                ", albumInfo='" + albumInfo + '\'' +
+//                ", albumPic='" + albumPic + '\'' +
+//                ", playBackground='" + playBackground + '\'' +
+//                ", totalTime='" + totalTime + '\'' +
                 '}';
     }
 }

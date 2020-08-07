@@ -46,6 +46,7 @@ public class AudioEvent {
         EVENT_REMOVE_FAVOURITE,
         EVENT_LOAD_ERROR,
         EVENT_PLAY_MODE,
+        EVENT_REMOVE_FROM_QUEUE,
     }
 
     @Override

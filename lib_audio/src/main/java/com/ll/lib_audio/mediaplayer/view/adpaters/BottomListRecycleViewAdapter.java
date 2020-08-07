@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,10 @@ import com.ll.lib_audio.mediaplayer.core.AudioController;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+
 public class BottomListRecycleViewAdapter
         extends RecyclerView.Adapter<BottomListRecycleViewAdapter.BottomListRecycleItemHolder> {
+    private static final String TAG = "BottomAdapter";
     private ArrayList<AudioBean> mCurrentList = null;
     private AudioBean mCurrentAudioBean = null;
     private WeakReference<Context> mContext = null;
@@ -42,6 +45,7 @@ public class BottomListRecycleViewAdapter
 
     @Override
     public void onBindViewHolder(@NonNull BottomListRecycleItemHolder holder, @SuppressLint("RecyclerView") final int position) {
+        Log.d(TAG, "onBindViewHolder: " + position);
         int showColor = mContext.get().getResources().getColor(R.color.color_white);
         if (AudioController.getInstance().getCurrentAudioBean().getId() == mCurrentList.get(position).getId()){
             holder.mPlayingIcon.setVisibility(View.VISIBLE);
@@ -96,5 +100,15 @@ public class BottomListRecycleViewAdapter
     public void updateCurrentAudio(AudioBean bean){
         this.mCurrentAudioBean = bean;
         notifyDataSetChanged();
+    }
+
+    public void updateCurrentAudioQueue(ArrayList<AudioBean> list, AudioBean audioBean){
+        if (audioBean == null){
+            return;
+        }
+
+        notifyItemRemoved(this.mCurrentList.indexOf(audioBean));
+        this.mCurrentList = list;
+        Log.d(TAG, "updateCurrentAudioQueue: " + this.mCurrentList);
     }
 }
