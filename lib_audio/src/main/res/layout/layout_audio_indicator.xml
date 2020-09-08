@@ -12,8 +12,8 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/layout_audio_indicator_viewpager"
-        android:layout_width="360dp"
-        android:layout_height="360dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp" />
 
